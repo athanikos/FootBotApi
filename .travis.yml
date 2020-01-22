@@ -10,6 +10,8 @@ install: pip install -r requirements.txt
 Script:
 - nosetts FootBotApi/test/test.py -v — with-coverage
 
+
+
 after_success:
 - bash < (curl -s https://codecov.io/bash)
 
