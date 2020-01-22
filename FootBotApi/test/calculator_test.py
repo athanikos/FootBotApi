@@ -10,7 +10,7 @@ def test_compute_average_variable_not_in_place():
     match1 = get_match(1, 1, 2, 1, 0)
     match2 = get_match(1, 1, 2, 1, 1)
     matches.append(match1)
-    in_out_pairs = {"stats_data_0_goals": 'out', "stats_data_1_goals": 'out2'}
+    in_out_pairs = {"stats_data_0_goals": 'out', "dummy": 'out2'}
 
     object_to_set = JsonSerializable()
     with pytest.raises(NameError):
