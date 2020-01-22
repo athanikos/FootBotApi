@@ -22,10 +22,12 @@ def hello_world():
 def get_flat_matches(league_id, team_id, before_date):
     connect(database_name, host=server_name, port=port)
     items = flatmatches.objects((Q(localteam_id=team_id) | Q(visitorteam_id=team_id))
-                                & Q(league_id=league_id) & Q(time_starting_at_date__lte=before_date)).order_by('time_starting_at_date-')[:10]
+                                & Q(league_id=league_id) & Q(time_starting_at_date__lte=before_date)).order_by(
+        'time_starting_at_date-')[:10]
 
     return jsonify(items.to_json())
     return jsonify({'message': 'not found'})
+
 
 @app.before_request
 def before():

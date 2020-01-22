@@ -10,6 +10,7 @@ class flatmatches(Document):
 
     stats_data_1_goals = IntField()
     stats_data_0_goals=IntField()
+
     id = IntField()
     time_extra_minute=IntField()
     stats_data_0_corners=IntField()

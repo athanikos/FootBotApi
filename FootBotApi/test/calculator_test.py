@@ -22,10 +22,11 @@ def test_compute_average():
     matches.append(match1)
     matches.append(match2)
     object_to_set = JsonSerializable()
-    compute_average(matches, 1, 'stats_data_0_goals', 'out', object_to_set)
+
+    in_out_pairs = {"stats_data_0_goals": 'out', "stats_data_1_goals": 'out2'}
+    compute_average(matches, 1, in_out_pairs, object_to_set)
     assert object_to_set.out == 1
-    compute_average(matches, 1, 'stats_data_1_goals', 'out2', object_to_set)
     assert object_to_set.out2 == .5
-    assert object_to_set.out == 1
+
 
 

@@ -1,5 +1,8 @@
 import json
 
+CNT = "cnt"
+AVG = "avg"
+
 
 class JsonSerializable(object):
     def toJSON(self):
@@ -7,24 +10,63 @@ class JsonSerializable(object):
                           sort_keys=True, indent=4)
 
 
-# iterates through flat_,matches and computes the average of variable_to_use
-# creates an object Output and sets variable_to_produce to variable_to_use/count
-def compute_average(flat_matches, team_id, variable_to_use, variable_to_produce, object_to_set):
-    average = 0
-    count = 0
-    for ft in flat_matches:
-        if not hasattr(ft, variable_to_use):
-            raise NameError(variable_to_use + " does not exist ")
-        if ft.localteam_id == team_id:
-            average += getattr(ft, variable_to_use)
-            count = count + 1
-        elif ft.visitorteam_id == team_id:
-            average += getattr(ft, variable_to_use)
-            count = count + 1
-    if count == 0:
-        setattr(object_to_set, variable_to_produce, 0)
-        return object_to_set
+def compute_average(flat_matches, team_id, name_pairs, object_to_set):
 
-    setattr(object_to_set, variable_to_produce, average / float(count))
+    for key in name_pairs:
+        init_average_value(name_pairs, key, object_to_set)
+        init_count_value(name_pairs, key, object_to_set)
+        for ft in flat_matches:
+            if not hasattr(ft, key):
+                raise NameError(key + " does not exist ")
+            if ft.localteam_id == team_id:
+                increment_average_value (name_pairs, key, object_to_set, getattr(ft, key))
+                set_next_count_value(name_pairs, key, object_to_set)
+            elif ft.visitorteam_id == team_id:
+                increment_average_value (name_pairs, key, ft, getattr(ft, key))
+                set_next_count_value(name_pairs, key, object_to_set)
+    for key in name_pairs:
+        if get_count_value(name_pairs, key,object_to_set) == 0:
+            setattr(object_to_set, name_pairs[key], 0)
+        else:
+            setattr(object_to_set, name_pairs[key], get_average_value(name_pairs, key, object_to_set)
+                    / float(get_count_value(name_pairs, key, object_to_set)))
     return object_to_set
 
+
+def get_count_value(name_pairs, key, object_to_get_from):
+    if not hasattr(object_to_get_from, name_pairs[key] + CNT):
+        setattr(object_to_get_from, name_pairs[key] + CNT, 0)
+    return getattr(object_to_get_from, name_pairs[key] + CNT)
+
+
+def get_value(name_pairs, key, object_to_get_from):
+    if not hasattr(object_to_get_from,  key):
+        setattr(object_to_get_from, key, 0)
+    return getattr(object_to_get_from, key)
+
+
+def get_average_value(name_pairs, key, object_to_get_from):
+    if not hasattr(object_to_get_from,  name_pairs[key] + AVG):
+        setattr(object_to_get_from, name_pairs[key] + AVG, 0)
+    return getattr(object_to_get_from, name_pairs[key] + AVG)
+
+
+def set_next_count_value(name_pairs, key, object_to_get_from):
+    if not hasattr(object_to_get_from, name_pairs[key] + CNT):
+        setattr(object_to_get_from, name_pairs[key] + CNT, 0)
+    setattr(object_to_get_from, name_pairs[key] + CNT, get_count_value(name_pairs, key, object_to_get_from) + 1)
+
+
+def init_count_value(name_pairs, key, object_to_get_from):
+    setattr(object_to_get_from, name_pairs[key] + CNT, 0)
+
+
+def init_average_value(name_pairs, key, object_to_get_from):
+    setattr(object_to_get_from, name_pairs[key] + AVG, 0)
+
+
+def increment_average_value(name_pairs, key, object_to_get_from, value):
+    if not hasattr(object_to_get_from, name_pairs[key] + AVG):
+        setattr(object_to_get_from, name_pairs[key] + AVG, value)
+    else:
+        setattr(object_to_get_from, name_pairs[key] + AVG, get_average_value(name_pairs, key, object_to_get_from) +  value)
