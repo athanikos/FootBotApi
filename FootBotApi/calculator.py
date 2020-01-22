@@ -11,7 +11,6 @@ class JsonSerializable(object):
 
 
 def compute_average(flat_matches, team_id, name_pairs, object_to_set):
-
     for key in name_pairs:
         init_average_value(name_pairs, key, object_to_set)
         init_count_value(name_pairs, key, object_to_set)
