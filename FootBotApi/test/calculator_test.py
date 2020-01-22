@@ -20,7 +20,13 @@ def test_compute_average():
     match2 = get_match(1, 1, 2, 1, 1)
     matches.append(match1)
     matches.append(match2)
-    assert compute_average(matches, 1, 'stats_data_0_goals', 'out').out == 1
-    assert compute_average(matches, 1, 'stats_data_1_goals', 'out2').out2 == .5
+    object_to_set = Output()
+    compute_average(matches, 1, 'stats_data_0_goals', 'out',object_to_set)
+    assert object_to_set.out == 1
+    compute_average(matches, 1, 'stats_data_1_goals', 'out2',object_to_set)
+    assert object_to_set.out2 == .5
+    assert object_to_set.out == 1
 
+class Output(object):
+    pass
 

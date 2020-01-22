@@ -1,7 +1,9 @@
 import json
 
 
-def compute_average(flat_matches, team_id, variable_to_use, variable_to_produce):
+# iterates through flat_,matches and computes the average of variable_to_use
+# creates an object Output and sets variable_to_produce to variable_to_use/count
+def compute_average(flat_matches, team_id, variable_to_use, variable_to_produce, object_to_set):
     average = 0
     count = 0
     for ft in flat_matches:
@@ -14,12 +16,8 @@ def compute_average(flat_matches, team_id, variable_to_use, variable_to_produce)
             average += getattr(ft, variable_to_use)
             count = count + 1
     if count == 0:
-        return 0
+        setattr(object_to_set, variable_to_produce, 0)
+        return object_to_set
 
-    a = Output()
-    setattr(a, variable_to_produce, average / float(count))
-    return a
-
-
-class Output(object):
-    pass
+    setattr(object_to_set, variable_to_produce, average / float(count))
+    return object_to_set
