@@ -7,9 +7,6 @@ python:
 
 install: pip install -r requirements.txt
 
-Script:
-- nosetests test.py -v — with-coverage
-
 
 
 after_success:
