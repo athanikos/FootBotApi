@@ -1,5 +1,4 @@
 Flask
 pymongo
 mongoengine
-nose
-
+codecov

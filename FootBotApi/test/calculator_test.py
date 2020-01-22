@@ -18,3 +18,4 @@ def get_match(league_id, localteam_id, visitorteam_id, stats_data_0_goals, stats
     match.stats_data_0_goals = stats_data_0_goals
     match.stats_data_1_goals = stats_data_1_goals
     return match
+
