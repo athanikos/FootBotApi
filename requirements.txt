@@ -4,3 +4,4 @@ mongoengine
 codecov
 pytest
 pytest-cov
+py_expression_eval
