@@ -4,14 +4,13 @@ python:
   - 3.4
   - 3.5
   - 3.6
+
 install: pip install -r requirements.txt
 
-
 Script:
-- nosetts app/tests/test.py -v — with-coverage
+- nosetts FootBotApi/test/test.py -v — with-coverage
 
 after_success:
 - bash < (curl -s https://codecov.io/bash)
-
 
 script: pytest
