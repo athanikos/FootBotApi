@@ -1,10 +1,6 @@
 from FootBotApi.models import *
 from FootBotApi.calculator import *
 
-
-def test_dev_config():
-    assert 1 == 1
-
 def test_calculate():
     matches = []
     match1 = get_match(1, 1, 2, 1, 0)
