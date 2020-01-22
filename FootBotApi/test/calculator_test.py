@@ -10,8 +10,9 @@ def test_compute_average_variable_not_in_place():
     match1 = get_match(1, 1, 2, 1, 0)
     match2 = get_match(1, 1, 2, 1, 1)
     matches.append(match1)
+    object_to_set = JsonSerializable()
     with pytest.raises(NameError):
-        compute_average(matches, 1, 'i_dont_exist', 'dummy')
+        compute_average(matches, 1, 'i_dont_exist', 'dummy','dummy', object_to_set)
 
 
 def test_compute_average():
