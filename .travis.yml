@@ -8,7 +8,7 @@ python:
 install: pip install -r requirements.txt
 
 Script:
-- nosetts FootBotApi/test/test.py -v — with-coverage
+- nosetests FootBotApi/test/test.py -v — with-coverage
 
 
 
