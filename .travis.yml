@@ -7,9 +7,8 @@ python:
 
 install: pip install -r requirements.txt
 
-
+script: pytest
 
 after_success:
-- bash < (curl -s https://codecov.io/bash)
+  bash < (curl -s https://codecov.io/bash)
 
-script: pytest
