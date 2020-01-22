@@ -1,6 +1,12 @@
 import json
 
 
+class JsonSerializable(object):
+    def toJSON(self):
+        return json.dumps(self, default=lambda o: o.__dict__,
+                          sort_keys=True, indent=4)
+
+
 # iterates through flat_,matches and computes the average of variable_to_use
 # creates an object Output and sets variable_to_produce to variable_to_use/count
 def compute_average(flat_matches, team_id, variable_to_use, variable_to_produce, object_to_set):
@@ -21,3 +27,4 @@ def compute_average(flat_matches, team_id, variable_to_use, variable_to_produce,
 
     setattr(object_to_set, variable_to_produce, average / float(count))
     return object_to_set
+

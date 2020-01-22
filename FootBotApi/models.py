@@ -6,7 +6,8 @@ class flatmatches(Document):
     visitorteam_id=IntField()
     visitorTeam_data_name = StringField()
     localTeam_data_name = StringField()
-    time_starting_at_date = DateField()
+    time_starting_at_date = StringField()
+
     stats_data_1_goals = IntField()
     stats_data_0_goals=IntField()
     id = IntField()
