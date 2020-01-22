@@ -2,3 +2,5 @@ Flask
 pymongo
 mongoengine
 codecov
+pytest
+pytest-cov
