@@ -37,9 +37,31 @@ def test_increment_average_value():
     matches.append(match1)
     object_to_set = OutputTeamStats()
     in_out_pairs = {"stats_data_0_goals": 'out'}
-    init_average_value(in_out_pairs, "stats_data_0_goals", object_to_set)
+    init_value(in_out_pairs, "stats_data_0_goals", object_to_set,AVG)
     increment_average_value(in_out_pairs, "stats_data_0_goals", object_to_set, None)
     assert getattr(object_to_set, "out" + AVG) == 0
 
+def test_build_stats():
+    matches = []
+    match1 = get_match(1, 1, 2, 1, 0)
+    match2 = get_match(1, 1, 2, 1, 1)
+    matches.append(match1)
+    object_to_set = OutputTeamStats()
+    in_out_pairs = {"stats_data_0_goals": 'out'}
+    init_value(in_out_pairs, "stats_data_0_goals", object_to_set,AVG)
+    build_stats(matches, 1 , 2, '2011-01-01', object_to_set)
+    assert getattr(object_to_set, "team_id") == 1
+    assert getattr(object_to_set, "league_id") == 2
+    assert getattr(object_to_set, "before_date") == '2011-01-01'
 
 
+def test_get_value():
+    matches = []
+    match1 = get_match(1, 1, 2, 1, 0)
+    match2 = get_match(1, 1, 2, 1, 1)
+    matches.append(match1)
+    matches.append(match2)
+    object_to_set = OutputTeamStats()
+    in_out_pairs = {"stats_data_0_goals": 'out', "stats_data_1_goals": 'out2'}
+    assert get_value(in_out_pairs,"stats_data_0_goals",object_to_set) == 0
+    assert get_value(in_out_pairs,"dont exists",object_to_set) == 0

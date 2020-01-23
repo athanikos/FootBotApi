@@ -19,8 +19,8 @@ def build_stats(flat_matches,team_id,league_id,before_date,object_to_set):
 
 def compute_average(flat_matches, team_id, name_pairs, object_to_set):
     for key in name_pairs:
-        init_average_value(name_pairs, key, object_to_set)
-        init_count_value(name_pairs, key, object_to_set)
+        init_value(name_pairs, key, object_to_set,CNT)
+        init_value(name_pairs, key, object_to_set,AVG)
         for ft in flat_matches:
             if not hasattr(ft, key):
                 raise NameError(key + " does not exist ")
@@ -63,12 +63,8 @@ def set_next_count_value(name_pairs, key, object_to_get_from):
     setattr(object_to_get_from, name_pairs[key] + CNT, get_count_value(name_pairs, key, object_to_get_from) + 1)
 
 
-def init_count_value(name_pairs, key, object_to_get_from):
-    setattr(object_to_get_from, name_pairs[key] + CNT, 0)
-
-
-def init_average_value(name_pairs, key, object_to_get_from):
-    setattr(object_to_get_from, name_pairs[key] + AVG, 0)
+def init_value(name_pairs, key, object_to_get_from, postfix):
+    setattr(object_to_get_from, name_pairs[key] + postfix, 0)
 
 
 def increment_average_value(name_pairs, key, object_to_get_from, value):
