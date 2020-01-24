@@ -1,3 +1,4 @@
+mock
 Flask
 pymongo
 mongoengine
@@ -5,3 +6,4 @@ codecov
 pytest
 pytest-cov
 py_expression_eval
+pytest-mock
