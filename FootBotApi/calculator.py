@@ -25,13 +25,13 @@ def compute_average(flat_matches, team_id, name_pairs, object_to_set):
             if not hasattr(ft, key):
                 raise NameError(key + " does not exist ")
             if ft.localteam_id == team_id:
-                increment_average_value (name_pairs, key, object_to_set, getattr(ft, key))
+                increment_average_value(name_pairs, key, object_to_set, getattr(ft, key))
                 set_next_count_value(name_pairs, key, object_to_set)
             elif ft.visitorteam_id == team_id:
                 increment_average_value(name_pairs, key, ft, getattr(ft, key))
                 set_next_count_value(name_pairs, key, object_to_set)
     for key in name_pairs:
-        if get_count_value(name_pairs, key,object_to_set) == 0:
+        if get_count_value(name_pairs,key, object_to_set) == 0:
             setattr(object_to_set, name_pairs[key], 0)
         else:
             setattr(object_to_set, name_pairs[key], get_average_value(name_pairs, key, object_to_set)

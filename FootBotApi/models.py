@@ -7,10 +7,12 @@ class flatmatches(Document):
     visitorTeam_data_name = StringField()
     localTeam_data_name = StringField()
     time_starting_at_date = StringField()
+    time_status=StringField()
+    time_minute=IntField()
+
 
     stats_data_1_goals = IntField()
     stats_data_0_goals=IntField()
-
     id = IntField()
     time_extra_minute=IntField()
     stats_data_0_corners=IntField()
@@ -71,12 +73,10 @@ class flatmatches(Document):
     stats_data_1_shots_blocked=IntField()
     stats_data_0_saves=IntField()
     stats_data_0_penalties=IntField()
-    time_minute=IntField()
     stats_data_1_shots_insidebox=IntField()
     stats_data_1_substitutions=IntField()
     stats_data_0_attacks_attacks=IntField()
     standings_visitorteam_position=IntField()
-    time_status=IntField()
     stats_data_0_shots_outsidebox=IntField()
     time_starting_at_timestamp=IntField()
     time_starting_at_timezone=IntField()
