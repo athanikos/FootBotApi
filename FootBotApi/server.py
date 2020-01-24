@@ -7,9 +7,8 @@ from mongoengine import connect
 from mongoengine.queryset.visitor import Q
 
 
-# app = Flask(__name__)
-bp = Blueprint('myapp', __name__)
 
+bp = Blueprint('myapp', __name__)
 logging.basicConfig(level=logging.DEBUG)
 server_name = "localhost"
 port = 27017
@@ -19,7 +18,6 @@ database_name = "book"
 def create_app(config_filename=None):
     app = Flask(__name__, instance_relative_config=True)
     app.register_blueprint(bp)
-    config_filename = "/home/nikos/PycharmProjects/FootBotApi/flask.cfg"
     app.config.from_pyfile(config_filename)
     return app
 
