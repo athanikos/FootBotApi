@@ -33,7 +33,6 @@ def test_compute_average():
 def test_increment_average_value():
     matches = []
     match1 = get_match(1, 1, 2, 1, 0)
-    match2 = get_match(1, 1, 2, 1, 1)
     matches.append(match1)
     object_to_set = OutputTeamStats()
     in_out_pairs = {"stats_data_0_goals": 'out'}
@@ -41,10 +40,10 @@ def test_increment_average_value():
     increment_average_value(in_out_pairs, "stats_data_0_goals", object_to_set, None)
     assert getattr(object_to_set, "out" + AVG) == 0
 
+
 def test_build_stats():
     matches = []
     match1 = get_match(1, 1, 2, 1, 0)
-    match2 = get_match(1, 1, 2, 1, 1)
     matches.append(match1)
     object_to_set = OutputTeamStats()
     in_out_pairs = {"stats_data_0_goals": 'out'}
@@ -63,5 +62,5 @@ def test_get_value():
     matches.append(match2)
     object_to_set = OutputTeamStats()
     in_out_pairs = {"stats_data_0_goals": 'out', "stats_data_1_goals": 'out2'}
-    assert get_value(in_out_pairs,"stats_data_0_goals",object_to_set) == 0
-    assert get_value(in_out_pairs,"dont exists",object_to_set) == 0
+    assert get_value(in_out_pairs, "stats_data_0_goals", object_to_set) == 0
+    assert get_value(in_out_pairs, "dont exists", object_to_set) == 0
