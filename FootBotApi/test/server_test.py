@@ -31,5 +31,4 @@ def mock_get_value():
 def test_get_flat_matches(mock_get_value, test_client):
     response = test_client.get('/api/v1/stats/72/629/2020-01-20/FT')
     assert response.status_code == 200
-    assert json.loads(response.get_data())['league_id'] == 72
-    #assert json.loads(response.json())['team_id'] == 629
+    assert json.loads(response.json())['team_id'] == 629
