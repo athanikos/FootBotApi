@@ -12,15 +12,15 @@ class OutputTeamStats(object):
 
 def build_stats(flat_matches,team_id,league_id,before_date,object_to_set):
     compute_average(flat_matches,team_id,input_output_pairs, object_to_set)
-    setattr(object_to_set,"team_id", team_id)
-    setattr(object_to_set,"league_id", league_id)
-    setattr(object_to_set,"before_date", before_date)
+    setattr(object_to_set, "team_id", team_id)
+    setattr(object_to_set, "league_id", league_id)
+    setattr(object_to_set, "before_date", before_date)
 
 
 def compute_average(flat_matches, team_id, name_pairs, object_to_set):
     for key in name_pairs:
-        init_value(name_pairs, key, object_to_set,CNT)
-        init_value(name_pairs, key, object_to_set,AVG)
+        init_value(name_pairs, key, object_to_set, CNT)
+        init_value(name_pairs, key, object_to_set, AVG)
         for ft in flat_matches:
             if not hasattr(ft, key):
                 raise NameError(key + " does not exist ")
