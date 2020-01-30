@@ -2,7 +2,7 @@ import flask
 from flask import Flask, request, jsonify, Blueprint
 import logging
 
-from FootBotApi.calculator import build_stats, OutputTeamStats
+from FootBotApi.calculator.calculator import build_stats, OutputTeamStats
 from FootBotApi.models import flatmatches
 from mongoengine import connect
 from mongoengine.queryset.visitor import Q
