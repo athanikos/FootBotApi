@@ -1,8 +1,6 @@
-from types import MethodType
 import json
 import mock
 import pytest
-from flask import jsonify
 from FootBotApi.models import flatmatches
 from FootBotApi.server import get_flat_matches, create_app
 

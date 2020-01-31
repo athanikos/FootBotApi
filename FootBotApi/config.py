@@ -1,3 +1,6 @@
+import os
+
+
 class BaseConfig(object):
     DEBUG = False
     TESTING = False
@@ -23,7 +26,12 @@ class ProductionConfig(BaseConfig):
 
 
 config = {
-    "dev": "FootBotApi.config.DevelopmentConfig",
-    "prod": "FootBotApi.config.ProductionConfig",
+    "development": "FootBotApi.config.DevelopmentConfig",
+    "production": "FootBotApi.config.ProductionConfig",
     "default": "FootBotApi.config.DevelopmentConfig",
 }
+
+
+def configure_app(app):
+    config_name = os.getenv('FLASK_ENV', 'default')
+    app.config.from_object(config[config_name])
