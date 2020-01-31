@@ -2,10 +2,11 @@ from enum import Enum
 
 
 class CalculatedField:
-    def __init__(self, team_id, input_variable_name, output_variable_name,
+    def __init__(self, team_id, home_input_variable_name, away_input_variable_name, output_variable_name,
                  calculation_method, include_matches):
         self.team_id = team_id
-        self.input_variable_name = input_variable_name
+        self.home_input_variable_name = home_input_variable_name
+        self.away_input_variable_name = away_input_variable_name
         self.output_variable_name = output_variable_name
         self.calculation_method = calculation_method
         self.include = include_matches
@@ -16,19 +17,22 @@ class CalculatedField:
     def is_home(self, home_team_id):
         return home_team_id == self.team_id
 
-    def is_away(self,away_team_id):
+    def is_away(self, away_team_id):
         return away_team_id == self.team_id
 
     def calculate(self, flat_matches):
         for match in flat_matches:
             if self.include == Include.ALL:
-                self.sum += getattr(match, self.input_variable_name)
+                if self.is_home(match.localteam_id):
+                    self.sum += getattr(match, self.home_input_variable_name)
+                elif self.is_away(match.visitorteam_id):
+                    self.sum += getattr(match, self.away_input_variable_name)
                 self.count += 1
             elif (self.include == Include.HOME) & self.is_home(match.localteam_id):
-                self.sum += getattr(match, self.input_variable_name)
+                self.sum += getattr(match, self.home_input_variable_name)
                 self.count += 1
             elif (self.include == Include.AWAY) & self.is_away(match.visitorteam_id):
-                self.sum += getattr(match, self.input_variable_name)
+                self.sum += getattr(match, self.away_input_variable_name)
                 self.count += 1
 
     def get_output_value(self):

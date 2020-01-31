@@ -45,11 +45,11 @@ def get_stats(league_id, team_id, before_date, time_status):
 
 def fetch_flat_matches(before_date, league_id, team_id, time_status):
     connect(database_name, host=server_name, port=port)
-    items = flatmatches.objects((Q(localteam_id=team_id) | Q(visitorteam_id=team_id))
+    return flatmatches.objects((Q(localteam_id=team_id) | Q(visitorteam_id=team_id))
                                 & (Q(time_status=time_status) )
                                 & Q(league_id=league_id) & Q(time_starting_at_date__lte=before_date)).order_by(
         'time_starting_at_date-')[:10]
-    return items
+
 
 
 @bp.before_request
