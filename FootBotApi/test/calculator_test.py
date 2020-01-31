@@ -102,3 +102,32 @@ def test_CalculatedVariable_calculate_AWAY_ALL():
     assert variable.sum == 10
     assert variable.count == 2
     assert variable.get_output_value() == 2
+
+
+def test_CalculatedVariable_calculate_AWAY_AVG_ZERO():
+    variable = CalculatedField(1, 'stats_data_0_goals', 'stats_data_1_goals', 'out', Calculation_Method.AVG, Include.AWAY)
+    matches = []
+    match1 = get_match(1, 1, 2, 3, 0)
+    match2 = get_match(1, 2, 3, 1, 2)
+    match3 = get_match(1, 2, 3, 0, 8)
+    matches.append(match1)
+    matches.append(match2)
+    matches.append(match3)
+    variable.calculate(matches)
+    assert variable.sum == 0
+    assert variable.count == 0
+    assert variable.get_output_value() == 0
+
+def test_CalculatedVariable_calculate_AWAY_SUM():
+    variable = CalculatedField(1, 'stats_data_0_goals', 'stats_data_1_goals', 'out', Calculation_Method.SUM, Include.AWAY)
+    matches = []
+    match1 = get_match(1, 1, 2, 3, 0)
+    match2 = get_match(1, 2, 1, 1, 2)
+    match3 = get_match(1, 2, 3, 0, 8)
+    matches.append(match1)
+    matches.append(match2)
+    matches.append(match3)
+    variable.calculate(matches)
+    assert variable.sum == 2
+    assert variable.count == 1
+    assert variable.get_output_value() == 2

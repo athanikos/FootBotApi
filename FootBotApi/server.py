@@ -24,11 +24,6 @@ bp = Blueprint('myapp', __name__)
 create_app('flask.cfg')
 
 
-@bp.route('/')
-def hello_world():
-    return 'Hello from FootBot Api !'
-
-
 @bp.route("/api/v1/matches/<int:league_id>/<int:team_id>/<before_date>/<time_status>", methods=['GET'])
 def get_flat_matches(league_id, team_id, before_date, time_status):
     items = fetch_flat_matches(before_date, league_id, team_id, time_status)
