@@ -75,7 +75,7 @@ def test_CalculatedVariable_calculate_COUNT_ALL():
     assert variable.get_output_value() == 2
 
 
-def test_CalculatedVariable_calculate_AWAY_ALL():
+def test_CalculatedVariable_calculate_AWAY_AVG():
     variable = CalculatedField(1, 'stats_data_0_goals', 'stats_data_1_goals', 'out', Calculation_Method.AVG, Include.AWAY)
     matches = []
     match1 = get_match(1, 1, 2, 3, 0)
@@ -89,7 +89,7 @@ def test_CalculatedVariable_calculate_AWAY_ALL():
     assert variable.count == 2
     assert variable.get_output_value() == 5
 
-def test_CalculatedVariable_calculate_AWAY_ALL():
+def test_CalculatedVariable_calculate_AWAY_COUNT():
     variable = CalculatedField(1, 'stats_data_0_goals', 'stats_data_1_goals', 'out', Calculation_Method.COUNT, Include.AWAY)
     matches = []
     match1 = get_match(1, 1, 2, 3, 0)
