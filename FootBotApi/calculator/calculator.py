@@ -7,8 +7,8 @@ SUM = "sum"
 
 
 variables = []
-first = CalculatedField(1, 'stats_data_0_goals', 'out', Calculation_Method.AVG, Include.HOME)
-second = CalculatedField(1, 'stats_data_1_goals', 'out2', Calculation_Method.AVG, Include.HOME)
+first = CalculatedField(1, 'stats_data_0_goals','stats_data_1_goals', 'out', Calculation_Method.AVG, Include.HOME)
+second = CalculatedField(1, 'stats_data_0_goals','stats_data_1_goals', 'out2', Calculation_Method.AVG, Include.HOME)
 variables.append(first)
 variables.append(second)
 

@@ -17,6 +17,7 @@ setup(
     description='A set of rest api methods used for calculating statistics and applying models for football data ',
     tests_require=['pytest'],
     classifiers=[
+        "Development Status:: 2 - Pre - Alpha",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
