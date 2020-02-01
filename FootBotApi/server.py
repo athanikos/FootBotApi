@@ -40,6 +40,4 @@ def fetch_flat_matches(before_date, league_id, team_id, time_status):
 
 
 if __name__ == '__main__':
-    logging.basicConfig(level=logging.DEBUG)
-    app = create_app()
     bp.run()
