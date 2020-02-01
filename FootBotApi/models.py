@@ -1,5 +1,6 @@
 from mongoengine import *
 
+
 class flatmatches(Document):
     league_id = IntField()
     localteam_id=IntField()
@@ -97,3 +98,13 @@ class flatmatches(Document):
     stats_data_0_fouls= IntField()
     stats_data_1_passes= IntField()
     stats_data_0_passes= IntField()
+
+
+class event(EmbeddedDocument):
+    id = IntField()
+    team_id = IntField()
+    type = StringField()
+
+
+class matches(Document):
+    id = IntField()
