@@ -1,15 +1,13 @@
-from types import MethodType
 import json
 import mock
 import pytest
-from flask import jsonify
 from FootBotApi.models import flatmatches
 from FootBotApi.server import get_flat_matches, create_app
 
 
 @pytest.fixture(scope='module')
 def test_client():
-    flask_app = create_app('flask.cfg')
+    flask_app = create_app()
     testing_client = flask_app.test_client()
     ctx = flask_app.app_context()
     ctx.push()
@@ -28,7 +26,7 @@ def mock_get_value():
         yield ft
 
 
-def test_get_flat_matches(mock_get_value, test_client):
+def test_get(mock_get_value, test_client):
     response = test_client.get('/api/v1/stats/72/629/2020-01-20/FT')
     assert response.status_code == 200
     assert json.loads(response.get_data())['league_id'] == 72

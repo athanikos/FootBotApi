@@ -1,3 +1,4 @@
+config
 mock
 Flask
 pymongo
@@ -7,3 +8,4 @@ pytest
 pytest-cov
 py_expression_eval
 pytest-mock
+python-dotenv
