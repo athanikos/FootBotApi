@@ -50,8 +50,6 @@ def fetch_matches():
     test = matches.objects()[:10]
     for m in test:
         sys.stdout.write(str(m.id))
-        for e in m.events:
-            sys.stdout.write(e.data.extra_minute)
     return test
 
 
