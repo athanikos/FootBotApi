@@ -47,9 +47,13 @@ def fetch_flat_matches(before_date, league_id, team_id, time_status):
 
 def fetch_matches():
     connect(app.config['DATABASE'], host=app.config['SERVERNAME'], port=app.config['PORT'])
-    test =  matches.objects()[:10]
+    test = matches.objects()[:10]
     for m in test:
-        sys.stdout.write(m.id)
+        sys.stdout.write(str(m.id))
+        for e in m.events:
+            sys.stdout.write(e.id)
+    return test
+
 
 if __name__ == '__main__':
     bp.run()
