@@ -51,7 +51,7 @@ def fetch_matches():
     for m in test:
         sys.stdout.write(str(m.id))
         for e in m.events:
-            sys.stdout.write(e.id)
+            sys.stdout.write(e.data.extra_minute)
     return test
 
 

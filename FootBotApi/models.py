@@ -99,7 +99,7 @@ class flatmatches(Document):
     stats_data_0_passes = IntField()
 
 
-class event(EmbeddedDocument):
+class data(EmbeddedDocument):
     id = IntField()
     team_id = IntField()
     type = StringField()
@@ -116,7 +116,7 @@ class event(EmbeddedDocument):
 
 class matches(Document):
     id = IntField()
-    events = ListField(EmbeddedDocumentListField(event))
+    events = ListField(EmbeddedDocumentListField(data))
     inplay = IntField()
     scores = IntField()
     visitorteam_id = IntField()
