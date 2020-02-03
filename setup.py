@@ -13,7 +13,7 @@ setup(
     license='Apache Software License',
     author='Nikos Athanasakis',
     packages=setuptools.find_packages(),
-    author_email='athanikos@jgmail.com',
+    author_email='athanikos@gmail.com',
     description='A set of rest api methods used for calculating statistics and applying models for football data ',
     tests_require=['pytest'],
     classifiers=[
