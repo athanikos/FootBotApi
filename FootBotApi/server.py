@@ -56,6 +56,8 @@ def fetch_matches():
            print(e)
            print(len(t.events))
            print(t.events['data'][0].team_id)
+           for item in t.events['data']:
+                print(item.minute)
 
     return test
 
