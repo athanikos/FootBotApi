@@ -5,8 +5,6 @@ from mongoengine import connect
 from mongoengine.queryset.visitor import Q
 from FootBotApi.config import configure_app
 from flask import current_app as app
-import sys
-import json
 
 bp = Blueprint('myapp', __name__)
 
@@ -53,10 +51,10 @@ def fetch_matches():
     for t in test:
         print(t.id)
         for e in t.events:
-           print(e)
-           print(len(t.events))
-           print(t.events['data'][0].team_id)
-           for item in t.events['data']:
+            print(e)
+            print(len(t.events))
+            print(t.events['data'][0].team_id)
+            for item in t.events['data']:
                 print(item.minute)
 
     return test
