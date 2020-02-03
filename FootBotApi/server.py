@@ -6,6 +6,7 @@ from mongoengine.queryset.visitor import Q
 from FootBotApi.config import configure_app
 from flask import current_app as app
 import sys
+import json
 
 bp = Blueprint('myapp', __name__)
 
@@ -47,9 +48,15 @@ def fetch_flat_matches(before_date, league_id, team_id, time_status):
 
 def fetch_matches():
     connect(app.config['DATABASE'], host=app.config['SERVERNAME'], port=app.config['PORT'])
-    test = matches.objects()[:10]
-    for m in test:
-        sys.stdout.write(str(m.id))
+    test = matches.objects(Q(id=11888482))[80:81]
+
+    for t in test:
+        print(t.id)
+        for e in t.events:
+           print(e)
+           print(len(t.events))
+           print(t.events['data'][0].team_id)
+
     return test
 
 
