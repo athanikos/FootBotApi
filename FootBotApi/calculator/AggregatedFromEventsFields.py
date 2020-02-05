@@ -10,21 +10,22 @@ AWAY_TEAM_GOALS = "AWAY_TEAM_GOALS"
 HOME_TEAM_RED_CARDS = "HOME_TEAM_RED_CARDS"
 AWAY_TEAM_RED_CARDS = "AWAY_TEAM_RED_CARDS"
 
-minutes = [15,30,45,60,75,90]
+minutes = [14, 29, 44, 59, 74, 89]
+
 
 class AggregatedFromEventsFields:
 
-    def __init__(self, events, home_team_id, away_team_id, minutes):
+    def __init__(self, events, home_team_id, away_team_id, mins):
         self.home_team_id = home_team_id
         self.away_team_id = away_team_id
-        self.minutes = minutes
+        self.minutes = mins
         self.events = events
-        self.home_team_yellow_cards={}
-        self.away_team_yellow_cards={}
-        self.home_team_red_cards={}
-        self.away_team_red_cards={}
-        self.home_team_goals={}
-        self.away_team_goals={}
+        self.home_team_yellow_cards = {}
+        self.away_team_yellow_cards = {}
+        self.home_team_red_cards = {}
+        self.away_team_red_cards = {}
+        self.home_team_goals = {}
+        self.away_team_goals = {}
 
     def init_output_dictionaries(self):
         for minute in self.minutes:
@@ -66,14 +67,16 @@ class AggregatedFromEventsFields:
 
     def add_output_values_to_object(self, object_to_set):
         for key in self.home_team_yellow_cards:
-            setattr(object_to_set, HOME_TEAM_YELLOW_CARDS + UNDERSCORE  + UPTO + str(key) , self.home_team_yellow_cards[key])
+            setattr(object_to_set, HOME_TEAM_YELLOW_CARDS + UNDERSCORE + UPTO + str(key),
+                    self.home_team_yellow_cards[key])
         for key in self.away_team_yellow_cards:
-            setattr(object_to_set, AWAY_TEAM_YELLOW_CARDS + UNDERSCORE + UPTO +  str(key), self.away_team_yellow_cards[key])
+            setattr(object_to_set, AWAY_TEAM_YELLOW_CARDS + UNDERSCORE + UPTO + str(key),
+                    self.away_team_yellow_cards[key])
         for key in self.home_team_red_cards:
-            setattr(object_to_set, HOME_TEAM_RED_CARDS + UNDERSCORE+ UPTO +  str(key), self.home_team_red_cards[key])
+            setattr(object_to_set, HOME_TEAM_RED_CARDS + UNDERSCORE + UPTO + str(key), self.home_team_red_cards[key])
         for key in self.away_team_red_cards:
-            setattr(object_to_set, AWAY_TEAM_RED_CARDS + UNDERSCORE + UPTO +  str(key), self.away_team_yellow_cards[key])
+            setattr(object_to_set, AWAY_TEAM_RED_CARDS + UNDERSCORE + UPTO + str(key), self.away_team_yellow_cards[key])
         for key in self.home_team_goals:
-            setattr(object_to_set, HOME_TEAM_GOALS + UNDERSCORE + UPTO +  str(key), self.home_team_goals[key])
+            setattr(object_to_set, HOME_TEAM_GOALS + UNDERSCORE + UPTO + str(key), self.home_team_goals[key])
         for key in self.away_team_goals:
-            setattr(object_to_set, AWAY_TEAM_GOALS + UNDERSCORE + UPTO +  str(key), self.away_team_goals[key])
+            setattr(object_to_set, AWAY_TEAM_GOALS + UNDERSCORE + UPTO + str(key), self.away_team_goals[key])
