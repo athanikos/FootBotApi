@@ -1,8 +1,7 @@
 from enum import Enum
-import sys
+from FootBotApi.calculator.CalculationMethod import CalculationMethod
 
-
-class CalculatedField:
+class AggregatedFromMatchesField:
     def __init__(self, team_id, home_input_variable_name, away_input_variable_name, output_variable_name,
                  calculation_method, include_matches):
         self.team_id = team_id
@@ -40,13 +39,13 @@ class CalculatedField:
                 self.count += 1
 
     def get_output_value(self):
-        if self.calculation_method == Calculation_Method.SUM:
+        if self.calculation_method == CalculationMethod.SUM:
             return self.sum
-        elif self.calculation_method == Calculation_Method.AVG:
+        elif self.calculation_method == CalculationMethod.AVG:
             if self.count == 0:
                 return 0
             return self.sum / float(self.count)
-        elif self.calculation_method == Calculation_Method.COUNT:
+        elif self.calculation_method == CalculationMethod.COUNT:
             return self.count
 
     def set_object_attr_to_output_value(self, object_to_set):
@@ -61,11 +60,6 @@ class CalculatedField:
                 return 0
             return getattr(object_to_set, name)
 
-
-class Calculation_Method(Enum):
-    SUM = 1
-    COUNT = 2
-    AVG = 3
 
 
 class Include(Enum):

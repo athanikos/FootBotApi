@@ -1,4 +1,3 @@
-import json
 import mock
 import pytest
 from FootBotApi.models import flatmatches
