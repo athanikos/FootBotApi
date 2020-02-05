@@ -38,6 +38,10 @@ class AggregatedFromEventsFields:
     def is_away(self, team_id):
         return team_id == self.away_team_id
 
+    def compute_output_values(self):
+        for e in self.events:
+            self.compute_output_values(e.type, e.minute, e.team_id)
+
     def compute_output_values(self, event_type, event_minute, team_id):
         for minute in self.minutes:
             if minute >= event_minute:

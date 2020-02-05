@@ -1,4 +1,6 @@
 from flask import Flask, jsonify, Blueprint
+
+from FootBotApi.calculator.AggregatedFromEventsFields import AggregatedFromEventsFields
 from FootBotApi.calculator.calculator import build_stats, OutputTeamStats
 from FootBotApi.models import flatmatches, matches
 from mongoengine import connect
@@ -30,10 +32,14 @@ def get_stats(league_id, team_id, before_date, time_status):
     return jsonify(output.toJSON())
 
 
-@bp.route("/api/v1/matches", methods=['GET'])
-def get_matches():
-    items = fetch_matches()
-    return jsonify(items.to_json())
+@bp.route("/api/v1/matches/<int:league_id>/<int:team_id>/<before_date>/<time_status>", methods=['GET'])
+def get_matches(league_id, team_id, before_date, time_status):
+    _matches = fetch_matches()
+    for m in _matches:
+        print(m.events['data'][0].team_id)
+        afef = AggregatedFromEventsFields()
+
+    return jsonify(_matches.to_json())
 
 
 def fetch_flat_matches(before_date, league_id, team_id, time_status):
@@ -44,20 +50,13 @@ def fetch_flat_matches(before_date, league_id, team_id, time_status):
         'time_starting_at_date-')[:10]
 
 
-def fetch_matches():
+def fetch_matches(league_id, team_id, before_date, time_status):
     connect(app.config['DATABASE'], host=app.config['SERVERNAME'], port=app.config['PORT'])
-    test = matches.objects(Q(id=11888482))[80:81]
-
-    for t in test:
-        print(t.id)
-        for e in t.events:
-            print(e)
-            print(len(t.events))
-            print(t.events['data'][0].team_id)
-            for item in t.events['data']:
-                print(item.minute)
-
-    return test
+    _matches = matches.objects((Q(localteam_id=team_id) | Q(visitorteam_id=team_id))
+                                    &(Q(time_status=time_status))
+               &Q(league_id=league_id) & Q(time_starting_at_date__lte=before_date)).order_by(
+        'time.starting_at.date-')[:10]
+    return _matches
 
 
 if __name__ == '__main__':

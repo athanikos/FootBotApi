@@ -1,6 +1,6 @@
 import json
 from FootBotApi.calculator.AggregatedFromMatchesField import  AggregatedFromMatchesField, Include
-from FootBotApi.calculator import CalculationMethod1
+from FootBotApi.calculator import CalculationMethod
 
 
 class OutputTeamStats(object):
@@ -21,9 +21,9 @@ def compute_fields_from_events(events, home_team_id, away_team_id):
 
 
 def compute_aggregated_fields(items_to_use, team_id, object_to_set):
-    fields = [AggregatedFromMatchesField(1, 'stats_data_0_goals', 'stats_data_1_goals', 'AverageAttack', CalculationMethod.AVG,
+    fields = [AggregatedFromMatchesField(1, 'stats_data_0_goals', 'stats_data_1_goals', 'AverageAttack', CalculationMethod.CalculationMethod.AVG,
                                          Include.HOME),
-              AggregatedFromMatchesField(1, 'stats_data_1_goals', 'stats_data_0_goals', 'AverageDefence', CalculationMethod.AVG,
+              AggregatedFromMatchesField(1, 'stats_data_1_goals', 'stats_data_0_goals', 'AverageDefence', CalculationMethod.CalculationMethod.AVG,
                                          Include.HOME),
               ]
     for field in fields:
