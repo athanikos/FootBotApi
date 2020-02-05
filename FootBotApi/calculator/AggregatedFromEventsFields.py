@@ -10,6 +10,7 @@ AWAY_TEAM_GOALS = "AWAY_TEAM_GOALS"
 HOME_TEAM_RED_CARDS = "HOME_TEAM_RED_CARDS"
 AWAY_TEAM_RED_CARDS = "AWAY_TEAM_RED_CARDS"
 
+minutes = [15,30,45,60,75,90]
 
 class AggregatedFromEventsFields:
 
@@ -40,7 +41,7 @@ class AggregatedFromEventsFields:
     def is_away(self, team_id):
         return team_id == self.away_team_id
 
-    def compute_output_values(self):
+    def compute_output_values_from_events(self):
         for e in self.events:
             self.compute_output_values(e.type, e.minute, e.team_id)
 

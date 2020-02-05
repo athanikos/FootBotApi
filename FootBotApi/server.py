@@ -1,5 +1,7 @@
+import json
+
 from flask import Flask, jsonify, Blueprint
-from FootBotApi.calculator.AggregatedFromEventsFields import AggregatedFromEventsFields
+from FootBotApi.calculator.AggregatedFromEventsFields import AggregatedFromEventsFields, minutes
 from FootBotApi.calculator.calculator import build_stats, OutputTeamStats
 from FootBotApi.models import flatmatches, matches
 from mongoengine import connect
@@ -33,13 +35,16 @@ def get_stats(league_id, team_id, before_date, time_status):
 
 @bp.route("/api/v1/matches/<int:league_id>/<int:team_id>/<before_date>/<time_status>", methods=['GET'])
 def get_matches(league_id, team_id, before_date, time_status):
-    _matches = fetch_matches()
+    _matches = fetch_matches(league_id,team_id,before_date,time_status)
+    output_items = []
     for m in _matches:
-        print(m.events['data'][0].team_id)
-        afef = AggregatedFromEventsFields()
-
-    return jsonify(_matches.to_json())
-
+        output = OutputTeamStats()
+        afef = AggregatedFromEventsFields(m.events['data'],m.localteam_id,m.visitorteam_id,minutes)
+        afef.init_output_dictionaries()
+        afef.compute_output_values_from_events()
+        afef.add_output_values_to_object(output)
+        output_items.append(output.toJSON())
+    return json.dumps(output_items)
 
 def fetch_flat_matches(before_date, league_id, team_id, time_status):
     connect(app.config['DATABASE'], host=app.config['SERVERNAME'], port=app.config['PORT'])
@@ -52,9 +57,8 @@ def fetch_flat_matches(before_date, league_id, team_id, time_status):
 def fetch_matches(league_id, team_id, before_date, time_status):
     connect(app.config['DATABASE'], host=app.config['SERVERNAME'], port=app.config['PORT'])
     _matches = matches.objects((Q(localteam_id=team_id) | Q(visitorteam_id=team_id))
-                                    &(Q(time_status=time_status))
-               &Q(league_id=league_id) & Q(time_starting_at_date__lte=before_date)).order_by(
-        'time.starting_at.date-')[:10]
+               &Q(league_id=league_id) ).order_by(
+        'time.starting_at.date-')[:1]
     return _matches
 
 

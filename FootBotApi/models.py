@@ -117,10 +117,14 @@ class Event(EmbeddedDocument):
 
 class matches(Document):
     id = IntField()
+    localteam_id = IntField()
+    league_id = IntField()
+    visitorteam_id = IntField()
+
+
     events = ListField(EmbeddedDocumentListField(Event, db_field="data"))
     inplay = IntField()
     scores = IntField()
-    visitorteam_id = IntField()
     round_id = IntField()
     attendance = IntField()
     commentaries = IntField()
@@ -129,10 +133,8 @@ class matches(Document):
     weather_report = IntField()
     formations = IntField()
     assistants = IntField()
-    localteam_id = IntField()
     season_id = IntField()
     visitorTeam = IntField()
-    league_id = IntField()
     group_id = IntField()
     stats = IntField()
     deleted = IntField()
