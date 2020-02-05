@@ -1,6 +1,7 @@
 from enum import Enum
 from FootBotApi.calculator.CalculationMethod import CalculationMethod
 
+
 class AggregatedFromMatchesField:
     def __init__(self, team_id, home_input_variable_name, away_input_variable_name, output_variable_name,
                  calculation_method, include_matches):

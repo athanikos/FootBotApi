@@ -1,5 +1,4 @@
 from flask import Flask, jsonify, Blueprint
-
 from FootBotApi.calculator.AggregatedFromEventsFields import AggregatedFromEventsFields
 from FootBotApi.calculator.calculator import build_stats, OutputTeamStats
 from FootBotApi.models import flatmatches, matches

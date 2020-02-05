@@ -15,11 +15,6 @@ def build_stats(flat_matches, team_id, league_id, before_date,object_to_set):
     setattr(object_to_set, "before_date", before_date)
 
 
-def compute_fields_from_events(events, home_team_id, away_team_id):
-    for event in events:
-        print(event)
-
-
 def compute_aggregated_fields(items_to_use, team_id, object_to_set):
     fields = [AggregatedFromMatchesField(1, 'stats_data_0_goals', 'stats_data_1_goals', 'AverageAttack', CalculationMethod.CalculationMethod.AVG,
                                          Include.HOME),
