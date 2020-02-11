@@ -35,16 +35,15 @@ def get_stats(league_id, team_id, before_date, time_status):
 
 @bp.route("/api/v1/matches/<int:league_id>/<int:team_id>/<before_date>/<time_status>", methods=['GET'])
 def get_matches(league_id, team_id, before_date, time_status):
-    _matches = fetch_matches(league_id,team_id,before_date,time_status)
     output_items = []
-    for m in _matches:
+    for m in fetch_matches(league_id,team_id,before_date,time_status):
         output = OutputTeamStats()
         afef = AggregatedFromEventsFields(m.events['data'],m.localteam_id,m.visitorteam_id,minutes)
         afef.init_output_dictionaries()
         afef.compute_output_values_from_events()
         afef.add_output_values_to_object(output)
         output_items.append(output.toJSON())
-    return json.dumps(output_items)
+    return jsonify(json.dumps(output_items))
 
 
 def fetch_flat_matches(before_date, league_id, team_id, time_status):
