@@ -34,7 +34,7 @@ def get_stats(league_id, team_id, before_date, time_status):
 
 @bp.route("/api/v1/matches/<int:league_id>/<int:team_id>/<before_date>/<time_status>", methods=['GET'])
 def get_matches(league_id, team_id, before_date, time_status):
-    _matches = fetch_matches()
+    _matches = fetch_matches(league_id, team_id, before_date, time_status)
     for m in _matches:
         print(m.events['data'][0].team_id)
         afef = AggregatedFromEventsFields()
