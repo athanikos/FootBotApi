@@ -1,7 +1,7 @@
 import mock
 import pytest
 from FootBotApi.models import flatmatches, matches, Event
-from FootBotApi.server import create_app
+from FootBotApi.server import create_app, fetch_matches
 import json
 
 
@@ -27,7 +27,7 @@ def mock_get_value():
 
 
 @pytest.fixture
-def mock_get_matches_value():
+def mock_get_value_2():
     with mock.patch(
             "FootBotApi.server.fetch_matches",
             autospec=True,
@@ -56,7 +56,7 @@ def test_get(mock_get_value, test_client):
     assert data_json2['league_id'] == 72
 
 
-def test_get_2(mock_get_matches_value, test_client):
+def test_get_2(mock_get_value_2, test_client):
     response = test_client.get('/api/v1/matches/72/629/2020-01-20/FT')
     assert response.status_code == 200
     data_json2 = json.loads(response.get_json(silent=True, force=True))

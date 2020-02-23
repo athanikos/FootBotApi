@@ -33,20 +33,15 @@ def get_stats(league_id, team_id, before_date, time_status):
     return jsonify(output.toJSON())
 
 
-@bp.route("/api/v1/matches/<int:league_id>/<int:team_id>/<before_date>/<time_status>", methods=['GET'])
-def get_matches(league_id, team_id, before_date, time_status):
-    output_items = []
-    the_matches = fetch_matches(league_id,team_id,before_date,time_status)
+@bp.route("/api/v1/matches/<int:match_id>/<time_status>", methods=['GET'])
+def get_match(match_id, time_status):
+    the_match = fetch_match(match_id,time_status)[:1]
     output = OutputTeamStats()
-    output_items.append(output.toJSON())
-    for m in the_matches:
-        output = OutputTeamStats()
-        afef = AggregatedFromEventsFields(m.events['data'],m.localteam_id,m.visitorteam_id,minutes)
-        afef.init_output_dictionaries()
-        afef.compute_output_values_from_events()
-        afef.add_output_values_to_object(output)
-        output_items.append(output.toJSON())
-    return jsonify(json.dumps(output_items))
+    afef = AggregatedFromEventsFields(the_match.events['data'],the_match.localteam_id,the_match.visitorteam_id,minutes)
+    afef.init_output_dictionaries()
+    afef.compute_output_values_from_events()
+    afef.add_output_values_to_object(output)
+    return jsonify(output.toJSON())
 
 
 def fetch_flat_matches(before_date, league_id, team_id, time_status):
@@ -57,12 +52,10 @@ def fetch_flat_matches(before_date, league_id, team_id, time_status):
         'time_starting_at_date-')[:10]
 
 
-def fetch_matches(league_id, team_id, before_date, time_status):
+def fetch_match(match_id, time_status):
     connect(app.config['DATABASE'], host=app.config['SERVERNAME'], port=app.config['PORT'])
-    return matches.objects((Q(localteam_id=team_id) | Q(visitorteam_id=team_id))
-               &Q(league_id=league_id) ).order_by(
-        'time.starting_at.date-')[:1]
-
+    return matches.objects((Q(id=match_id) )
+               )
 
 if __name__ == '__main__':
     bp.run()

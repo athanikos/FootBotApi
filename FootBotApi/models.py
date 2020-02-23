@@ -115,14 +115,17 @@ class Event(EmbeddedDocument):
     minute = IntField()
 
 
+class Time(EmbeddedDocument):
+    status = StringField()
+
+
 class matches(Document):
     id = IntField()
     localteam_id = IntField()
     league_id = IntField()
     visitorteam_id = IntField()
-
-
     events = ListField(EmbeddedDocumentListField(Event, db_field="data"))
+    time = EmbeddedDocumentField(Time,db_field="time")
     inplay = IntField()
     scores = IntField()
     round_id = IntField()
