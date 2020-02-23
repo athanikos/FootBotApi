@@ -18,7 +18,7 @@ def test_client():
 @pytest.fixture
 def mock_get_value():
     with mock.patch(
-            "FootBotApi.server.fetch_flat_match",
+            "FootBotApi.server.fetch_flat_matches",
             autospec=True,
     ) as _mock:
         ft = flatmatches()
