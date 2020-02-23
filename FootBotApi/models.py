@@ -113,6 +113,7 @@ class Event(EmbeddedDocument):
     fixture_id = IntField()
     reason = IntField()
     minute = IntField()
+    result = StringField()
 
 
 class Time(EmbeddedDocument):
@@ -125,7 +126,6 @@ class matches(Document):
     league_id = IntField()
     visitorteam_id = IntField()
     events = ListField(EmbeddedDocumentListField(Event, db_field="data"))
-    time = EmbeddedDocumentField(Time,db_field="time")
     inplay = IntField()
     scores = IntField()
     round_id = IntField()
