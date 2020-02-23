@@ -41,7 +41,6 @@ def get_match(match_id, time_status):
     for m in the_matches:
         print(len(m.events['data']))
         print(len(m.events))
-
         afef = AggregatedFromEventsFields(m.events['data'],m.localteam_id,m.visitorteam_id,minutes)
         afef.init_output_dictionaries()
         afef.compute_output_values_from_events()
