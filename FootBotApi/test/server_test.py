@@ -18,7 +18,7 @@ def test_client():
 @pytest.fixture
 def mock_get_value():
     with mock.patch(
-            "FootBotApi.server.fetch_flat_matches",
+            "FootBotApi.server.fetch_flat_match",
             autospec=True,
     ) as _mock:
         ft = flatmatches()
@@ -29,7 +29,7 @@ def mock_get_value():
 @pytest.fixture
 def mock_get_value_2():
     with mock.patch(
-            "FootBotApi.server.fetch_matches",
+            "FootBotApi.server.fetch_match",
             autospec=True,
     ) as _mock2:
         e = Event()
@@ -47,7 +47,6 @@ def mock_get_value_2():
         m.events.append(e2)
         m.league_id = -1
         yield m
-
 
 
 def test_get(mock_get_value, test_client):
