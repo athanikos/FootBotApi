@@ -62,7 +62,6 @@ class AggregatedFromMatchesField:
             return getattr(object_to_set, name)
 
 
-
 class Include(Enum):
     ALL = 1
     HOME = 2

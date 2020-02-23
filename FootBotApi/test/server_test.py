@@ -58,9 +58,10 @@ def test_get_flat_matches(mock_get_value, test_client):
     assert data_json2['league_id'] == 72
     assert data_json2['team_id'] == 629
 
-
+    
 def test_get_match(mock_get_value_2, test_client):
     response = test_client.get('/api/v1/matches/72/FT')
     assert response.status_code == 200
     data_json2 = json.loads(response.get_json(silent=True, force=True))
     assert data_json2['HOME_TEAM_GOALS_UP_TO_14'] == 1
+
