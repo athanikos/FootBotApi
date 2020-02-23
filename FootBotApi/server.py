@@ -35,13 +35,10 @@ def get_stats(league_id, team_id, before_date, time_status):
 
 @bp.route("/api/v1/matches/<int:match_id>/<time_status>", methods=['GET'])
 def get_match(match_id, time_status):
-    print("inmatches")
     the_matches = fetch_match(match_id,time_status)
     output = OutputTeamStats()
     for m in the_matches:
-        print(len(m.events['data']))
-        print(len(m.events))
-        afef = AggregatedFromEventsFields(m.events['data'],m.localteam_id,m.visitorteam_id,minutes)
+        afef = AggregatedFromEventsFields(m.events,m.localteam_id,m.visitorteam_id,minutes)
         afef.init_output_dictionaries()
         afef.compute_output_values_from_events()
         afef.add_output_values_to_object(output)
@@ -59,6 +56,7 @@ def fetch_flat_matches(before_date, league_id, team_id, time_status):
 def fetch_match(match_id, time_status):
     connect(app.config['DATABASE'], host=app.config['SERVERNAME'], port=app.config['PORT'])
     return matches.objects((Q(id=match_id)))[:1]
+
 
 if __name__ == '__main__':
     bp.run()
