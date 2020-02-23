@@ -49,6 +49,7 @@ def mock_get_value_2():
         yield m
 
 
+
 def test_get(mock_get_value, test_client):
     response = test_client.get('/api/v1/stats/72/629/2020-01-20/FT')
     assert response.status_code == 200
