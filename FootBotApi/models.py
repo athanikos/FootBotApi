@@ -10,7 +10,6 @@ class flatmatches(Document):
     time_starting_at_date = StringField()
     time_status = StringField()
     time_minute = IntField()
-
     stats_data_1_goals = IntField()
     stats_data_0_goals = IntField()
     id = IntField()
@@ -104,9 +103,9 @@ class Event(EmbeddedDocument):
     team_id = IntField()
     type = StringField()
     related_player_id = IntField()
-    related_player_name = IntField()
+    related_player_name = StringField()
     extra_minute = IntField()
-    player_name = IntField()
+    player_name = StringField()
     player_id = IntField()
     injuried = IntField()
     result = IntField()
@@ -116,8 +115,22 @@ class Event(EmbeddedDocument):
     result = StringField()
 
 
+class StartingAt(EmbeddedDocument):
+    date_time = StringField()
+    date =  StringField()
+    time = StringField()
+    timestamp = IntField()
+    timezone = StringField()
+
+
 class Time(EmbeddedDocument):
     status = StringField()
+    starting_at = EmbeddedDocumentField(StartingAt, db_field='starting_at')
+    second = StringField()
+    added_time = StringField()
+    minute = IntField()
+    extra_minute = IntField()
+    injury_time = IntField()
 
 
 class matches(Document):
@@ -125,7 +138,8 @@ class matches(Document):
     localteam_id = IntField()
     league_id = IntField()
     visitorteam_id = IntField()
-    events = ListField(EmbeddedDocumentListField(Event, db_field="data"))
+    events = ListField(EmbeddedDocumentListField(Event, db_field='data'))
+    time = EmbeddedDocumentField(Time, db_field='time')
     inplay = IntField()
     scores = IntField()
     round_id = IntField()
@@ -144,7 +158,6 @@ class matches(Document):
     pitch = IntField()
     colors = IntField()
     _id = IntField()
-    time = IntField()
     coaches = IntField()
     flatOdds = IntField()
     odds = IntField()
