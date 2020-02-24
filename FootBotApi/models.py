@@ -134,7 +134,8 @@ class Time(EmbeddedDocument):
 
 
 class matches(Document):
-    id = IntField()
+    _id = ObjectIdField(primary_key=True)
+    match_id = IntField(db_field='id')
     localteam_id = IntField()
     league_id = IntField()
     visitorteam_id = IntField()
@@ -157,7 +158,6 @@ class matches(Document):
     deleted = IntField()
     pitch = IntField()
     colors = IntField()
-    _id = IntField()
     coaches = IntField()
     flatOdds = IntField()
     odds = IntField()

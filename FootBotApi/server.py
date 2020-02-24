@@ -1,5 +1,3 @@
-import json
-
 from flask import Flask, jsonify, Blueprint
 from FootBotApi.calculator.AggregatedFromEventsFields import AggregatedFromEventsFields, minutes
 from FootBotApi.calculator.calculator import build_stats, OutputTeamStats
@@ -38,7 +36,7 @@ def get_match(match_id, time_status):
     the_matches = fetch_match(match_id,time_status)
     output = OutputTeamStats()
     for m in the_matches:
-        afef = AggregatedFromEventsFields(m.events['data'],m.localteam_id,m.visitorteam_id,minutes)
+        afef = AggregatedFromEventsFields(m.events['data'],match_id, m.localteam_id, m.visitorteam_id, minutes)
         afef.init_output_dictionaries()
         afef.compute_output_values_from_events()
         afef.add_output_values_to_object(output)
@@ -53,9 +51,9 @@ def fetch_flat_matches(before_date, league_id, team_id, time_status):
         'time_starting_at_date-')[:10]
 
 
-def fetch_match(match_id, time_status):
+def fetch_match(the_match_id, time_status):
     connect(app.config['DATABASE'], host=app.config['SERVERNAME'], port=app.config['PORT'])
-    return matches.objects((Q(id=match_id) & Q(time__status=time_status)))
+    return matches.objects((Q(match_id=the_match_id) & Q(time__status=time_status)))
 
 
 if __name__ == '__main__':

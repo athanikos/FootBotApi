@@ -11,10 +11,10 @@ class BaseConfig(object):
 
 class DevelopmentConfig(BaseConfig):
     DEBUG = True
-    TESTING = False
+    TESTING = True
     SERVERNAME = "localhost"
     PORT = 27017
-    DATABASE = "book"
+    DATABASE = "testbook"
 
 
 class ProductionConfig(BaseConfig):
@@ -35,3 +35,4 @@ config = {
 def configure_app(app):
     config_name = os.getenv('FLASK_ENV', 'default')
     app.config.from_object(config[config_name])
+

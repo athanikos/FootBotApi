@@ -15,10 +15,11 @@ minutes = [14, 29, 44, 59, 74, 89]
 
 class AggregatedFromEventsFields:
 
-    def __init__(self, events, home_team_id, away_team_id, mins):
+    def __init__(self, events, match_id, home_team_id, away_team_id, _minutes):
+        self.match_id = match_id
         self.home_team_id = home_team_id
         self.away_team_id = away_team_id
-        self.minutes = mins
+        self.minutes = _minutes
         self.events = events
         self.home_team_yellow_cards = {}
         self.away_team_yellow_cards = {}
@@ -66,6 +67,9 @@ class AggregatedFromEventsFields:
                         self.away_team_goals[minute] += 1
 
     def add_output_values_to_object(self, object_to_set):
+        setattr(object_to_set, 'match_id', self.match_id)
+        setattr(object_to_set, 'home_team_id', self.home_team_id)
+        setattr(object_to_set, 'away_team_id', self.away_team_id)
         for key in self.home_team_yellow_cards:
             setattr(object_to_set, HOME_TEAM_YELLOW_CARDS + UNDERSCORE + UPTO + str(key),
                     self.home_team_yellow_cards[key])
