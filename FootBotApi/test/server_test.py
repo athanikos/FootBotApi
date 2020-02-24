@@ -40,15 +40,14 @@ def mock_get_value_2():
     m = matches()
     m.localteam_id = 1
     m.visitorteam_id = 2
-    m.events.append(e)
-    m.events.append(e2)
+    m.events = ({'data': [e,e2] } )
     m.league_id = -1
     with mock.patch(
             "FootBotApi.server.fetch_match",
             autospec=True,
             return_value= [m]
     ) as _mock2:
-        yield m
+        yield [m]
 
 
 def test_get_flat_matches(mock_get_value, test_client):
