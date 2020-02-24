@@ -2,7 +2,7 @@ from FootBotApi.calculator.AggregatedFromEventsFields import AggregatedFromEvent
 from FootBotApi.test.helpers import get_event, get_match
 
 
-def test_AggregatedFromEventsFields():
+def test_aggregated_from_events_fields():
     event1 = get_event(1, "goal", 14)
     event2 = get_event(1, "yellowcard", 14)
     events = []
@@ -40,7 +40,7 @@ def test_AggregatedFromEventsFields_Away():
     assert aeff.away_team_yellow_cards[30] == 1
 
 
-def test_AggregatedFromEventsFields_Null_Events():
+def test_aggregated_from_events_fields_null_events():
     minutes = []
     minutes.append(15)
     minutes.append(30)

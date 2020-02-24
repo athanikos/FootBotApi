@@ -45,6 +45,8 @@ def get_match(match_id, time_status):
     return jsonify(output.toJSON())
 
 
+
+
 def fetch_flat_matches(before_date, league_id, team_id, time_status):
     connect(app.config['DATABASE'], host=app.config['SERVERNAME'], port=app.config['PORT'])
     return flatmatches.objects((Q(localteam_id=team_id) | Q(visitorteam_id=team_id))
