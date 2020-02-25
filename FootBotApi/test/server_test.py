@@ -109,13 +109,7 @@ def test_get_flat_matches(test_client):
     data_json2 = json.loads(response.get_json(silent=True, force=True))
     assert response.status_code == 200
     assert len(data_json2) == 1
-
     response = test_client.get('/api/v1/flatmatches/3/1/2020-01-20/FT')
-    data_json2 = json.loads(response.get_json(silent=True, force=True))
-    assert response.status_code == 200
-    assert len(data_json2) == 0
-
-    response = test_client.get('/api/v1/flatmatches/3/1/2020-01-19/FT')
     data_json2 = json.loads(response.get_json(silent=True, force=True))
     assert response.status_code == 200
     assert len(data_json2) == 0
