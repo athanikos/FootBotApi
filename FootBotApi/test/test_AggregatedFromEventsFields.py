@@ -1,4 +1,4 @@
-from FootBotApi.calculator.AggregatedFromEventsFields import AggregatedFromEventsFields
+from FootBotApi.calculator.ComputedFromEventsFields import ComputedFromEventsFields
 from FootBotApi.test.helpers import get_event, get_match
 
 
@@ -11,7 +11,7 @@ def test_aggregated_from_events_fields():
     minutes = []
     minutes.append(15)
     minutes.append(30)
-    aeff = AggregatedFromEventsFields(events, 6, 1, 2, minutes)
+    aeff = ComputedFromEventsFields(events, 6, 1, 2, minutes)
     aeff.init_output_dictionaries()
     aeff.compute_output_values("goal", 22, 1)
     aeff.compute_output_values("yellowcard", 2, 1)
@@ -30,7 +30,7 @@ def test_AggregatedFromEventsFields_Away():
     minutes = []
     minutes.append(15)
     minutes.append(30)
-    aeff = AggregatedFromEventsFields(events, 6, 1, 2, minutes)
+    aeff = ComputedFromEventsFields(events, 6, 1, 2, minutes)
     aeff.init_output_dictionaries()
     aeff.compute_output_values("goal", 22, 2)
     aeff.compute_output_values("yellowcard", 2, 2)
@@ -44,7 +44,7 @@ def test_aggregated_from_events_fields_null_events():
     minutes = []
     minutes.append(15)
     minutes.append(30)
-    aeff = AggregatedFromEventsFields(None,6, 1, 2, minutes)
+    aeff = ComputedFromEventsFields(None, 6, 1, 2, minutes)
     aeff.init_output_dictionaries()
     assert aeff.home_team_goals[15] == 0
     assert aeff.home_team_goals[30] == 0
@@ -69,7 +69,7 @@ def test_add_output_values_to_object():
     minutes = []
     minutes.append(15)
     minutes.append(30)
-    aeff = AggregatedFromEventsFields(events, 6, 1, 2, minutes)
+    aeff = ComputedFromEventsFields(events, 6, 1, 2, minutes)
     aeff.init_output_dictionaries()
     aeff.compute_output_values("goal", 22, 1)
     aeff.compute_output_values("yellowcard", 2, 1)
@@ -91,7 +91,7 @@ def test_add_output_values_to_object_matches():
     minutes = []
     minutes.append(15)
     minutes.append(30)
-    aeff = AggregatedFromEventsFields(events,6, 1, 2, minutes)
+    aeff = ComputedFromEventsFields(events, 6, 1, 2, minutes)
     aeff.init_output_dictionaries()
     aeff.compute_output_values("goal", 22, 1)
     aeff.compute_output_values("yellowcard", 2, 1)

@@ -1,5 +1,5 @@
 import json
-from FootBotApi.calculator.AggregatedFromMatchesField import  AggregatedFromMatchesField, Include
+from FootBotApi.calculator.ComputedFromMatchesField import  ComputedFromMatchesField, Include
 from FootBotApi.calculator import CalculationMethod
 
 
@@ -16,10 +16,10 @@ def build_stats(flat_matches, team_id, league_id, before_date,object_to_set):
 
 
 def compute_aggregated_fields(items_to_use, team_id, object_to_set):
-    fields = [AggregatedFromMatchesField(1, 'stats_data_0_goals', 'stats_data_1_goals', 'AverageAttack', CalculationMethod.CalculationMethod.AVG,
-                                         Include.HOME),
-              AggregatedFromMatchesField(1, 'stats_data_1_goals', 'stats_data_0_goals', 'AverageDefence', CalculationMethod.CalculationMethod.AVG,
-                                         Include.HOME),
+    fields = [ComputedFromMatchesField(1, 'stats_data_0_goals', 'stats_data_1_goals', 'AverageAttack', CalculationMethod.CalculationMethod.AVG,
+                                       Include.HOME),
+              ComputedFromMatchesField(1, 'stats_data_1_goals', 'stats_data_0_goals', 'AverageDefence', CalculationMethod.CalculationMethod.AVG,
+                                       Include.HOME),
               ]
     for field in fields:
         field.set_team_id(team_id)

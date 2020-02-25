@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, Blueprint
-from FootBotApi.calculator.AggregatedFromEventsFields import AggregatedFromEventsFields, minutes
+from FootBotApi.calculator.ComputedFromEventsFields import ComputedFromEventsFields, minutes
 from FootBotApi.calculator.calculator import build_stats, OutputTeamStats
 from FootBotApi.models import flatmatches, matches
 from mongoengine import connect
@@ -36,7 +36,7 @@ def get_match(match_id, time_status):
     the_matches = fetch_match(match_id,time_status)
     output = OutputTeamStats()
     for m in the_matches:
-        afef = AggregatedFromEventsFields(m.events['data'],match_id, m.localteam_id, m.visitorteam_id, minutes)
+        afef = ComputedFromEventsFields(m.events['data'], match_id, m.localteam_id, m.visitorteam_id, minutes)
         afef.init_output_dictionaries()
         afef.compute_output_values_from_events()
         afef.add_output_values_to_object(output)

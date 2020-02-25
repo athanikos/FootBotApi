@@ -13,7 +13,7 @@ AWAY_TEAM_RED_CARDS = "AWAY_TEAM_RED_CARDS"
 minutes = [14, 29, 44, 59, 74, 89]
 
 
-class AggregatedFromEventsFields:
+class ComputedFromEventsFields:
 
     def __init__(self, events, match_id, home_team_id, away_team_id, _minutes):
         self.match_id = match_id

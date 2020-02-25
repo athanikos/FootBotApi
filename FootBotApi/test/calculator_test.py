@@ -1,7 +1,7 @@
-from FootBotApi.calculator.AggregatedFromMatchesField import AggregatedFromMatchesField
+from FootBotApi.calculator.ComputedFromMatchesField import ComputedFromMatchesField
 from FootBotApi.calculator.calculator import OutputTeamStats, compute_aggregated_fields, build_stats
 from FootBotApi.test.helpers import get_match
-from FootBotApi.calculator.AggregatedFromMatchesField import  Include
+from FootBotApi.calculator.ComputedFromMatchesField import  Include
 from FootBotApi.calculator.CalculationMethod import  CalculationMethod
 
 
@@ -11,8 +11,8 @@ def test_build_stats():
     matches.append(match1)
     object_to_set = OutputTeamStats()
     variable_pairs =[]
-    variable = AggregatedFromMatchesField(1, 'stats_data_0_goals', 'stats_data_1_goals', 'out', CalculationMethod.AVG,
-                                          Include.ALL)
+    variable = ComputedFromMatchesField(1, 'stats_data_0_goals', 'stats_data_1_goals', 'out', CalculationMethod.AVG,
+                                        Include.ALL)
     variable_pairs.append(variable)
     build_stats(matches, 1, 1, "1/1/2010", object_to_set)
     assert getattr(object_to_set, "team_id") == 1
@@ -21,8 +21,8 @@ def test_build_stats():
 
 
 def test_CalculatedVariable_calculate():
-     variable =  AggregatedFromMatchesField(1, 'stats_data_0_goals', 'stats_data_1_goals', 'out', CalculationMethod.AVG,
-                                            Include.HOME)
+     variable =  ComputedFromMatchesField(1, 'stats_data_0_goals', 'stats_data_1_goals', 'out', CalculationMethod.AVG,
+                                          Include.HOME)
      matches = []
      match1 = get_match(1, 1, 2, 3, 0)
      match2 = get_match(1, 3, 2, 2, 0)
@@ -35,7 +35,7 @@ def test_CalculatedVariable_calculate():
 
 
 def test_CalculatedVariable_calculate_SUM():
-    variable = AggregatedFromMatchesField(1, 'stats_data_0_goals', 'stats_data_1_goals', 'out', CalculationMethod.SUM, Include.HOME)
+    variable = ComputedFromMatchesField(1, 'stats_data_0_goals', 'stats_data_1_goals', 'out', CalculationMethod.SUM, Include.HOME)
     matches = []
     match1 = get_match(1, 1, 2, 3, 0)
     match2 = get_match(1, 1, 2, 2, 0)
@@ -48,7 +48,7 @@ def test_CalculatedVariable_calculate_SUM():
 
 
 def test_CalculatedVariable_calculate_SUM_ALL():
-    variable = AggregatedFromMatchesField(1, 'stats_data_0_goals', 'stats_data_1_goals', 'out', CalculationMethod.SUM, Include.ALL)
+    variable = ComputedFromMatchesField(1, 'stats_data_0_goals', 'stats_data_1_goals', 'out', CalculationMethod.SUM, Include.ALL)
     matches = []
     match1 = get_match(1, 1, 2, 3, 0)
     match2 = get_match(1, 1, 2, 2, 0)
@@ -63,7 +63,7 @@ def test_CalculatedVariable_calculate_SUM_ALL():
 
 
 def test_CalculatedVariable_calculate_COUNT_ALL():
-    variable = AggregatedFromMatchesField(1, 'stats_data_0_goals', 'stats_data_1_goals', 'out', CalculationMethod.COUNT, Include.HOME)
+    variable = ComputedFromMatchesField(1, 'stats_data_0_goals', 'stats_data_1_goals', 'out', CalculationMethod.COUNT, Include.HOME)
     matches = []
     match1 = get_match(1, 1, 2, 3, 0)
     match2 = get_match(1, 1, 2, 2, 0)
@@ -78,7 +78,7 @@ def test_CalculatedVariable_calculate_COUNT_ALL():
 
 
 def test_CalculatedVariable_calculate_AWAY_AVG():
-    variable = AggregatedFromMatchesField(1, 'stats_data_0_goals', 'stats_data_1_goals', 'out', CalculationMethod.AVG, Include.AWAY)
+    variable = ComputedFromMatchesField(1, 'stats_data_0_goals', 'stats_data_1_goals', 'out', CalculationMethod.AVG, Include.AWAY)
     matches = []
     match1 = get_match(1, 1, 2, 3, 0)
     match2 = get_match(1, 2, 1, 1, 2)
@@ -92,7 +92,7 @@ def test_CalculatedVariable_calculate_AWAY_AVG():
     assert variable.get_output_value() == 5
 
 def test_CalculatedVariable_calculate_AWAY_COUNT():
-    variable = AggregatedFromMatchesField(1, 'stats_data_0_goals', 'stats_data_1_goals', 'out', CalculationMethod.COUNT, Include.AWAY)
+    variable = ComputedFromMatchesField(1, 'stats_data_0_goals', 'stats_data_1_goals', 'out', CalculationMethod.COUNT, Include.AWAY)
     matches = []
     match1 = get_match(1, 1, 2, 3, 0)
     match2 = get_match(1, 2, 1, 1, 2)
@@ -107,7 +107,7 @@ def test_CalculatedVariable_calculate_AWAY_COUNT():
 
 
 def test_CalculatedVariable_calculate_AWAY_AVG_ZERO():
-    variable = AggregatedFromMatchesField(1, 'stats_data_0_goals', 'stats_data_1_goals', 'out', CalculationMethod.AVG, Include.AWAY)
+    variable = ComputedFromMatchesField(1, 'stats_data_0_goals', 'stats_data_1_goals', 'out', CalculationMethod.AVG, Include.AWAY)
     matches = []
     match1 = get_match(1, 1, 2, 3, 0)
     match2 = get_match(1, 2, 3, 1, 2)
@@ -121,7 +121,7 @@ def test_CalculatedVariable_calculate_AWAY_AVG_ZERO():
     assert variable.get_output_value() == 0
 
 def test_CalculatedVariable_calculate_AWAY_SUM():
-    variable = AggregatedFromMatchesField(1, 'stats_data_0_goals', 'stats_data_1_goals', 'out', CalculationMethod.SUM, Include.AWAY)
+    variable = ComputedFromMatchesField(1, 'stats_data_0_goals', 'stats_data_1_goals', 'out', CalculationMethod.SUM, Include.AWAY)
     matches = []
     match1 = get_match(1, 1, 2, 3, 0)
     match2 = get_match(1, 2, 1, 1, 2)
