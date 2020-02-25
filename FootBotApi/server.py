@@ -47,7 +47,7 @@ def fetch_flat_matches(before_date, league_id, team_id, time_status):
     connect(app.config['DATABASE'], host=app.config['SERVERNAME'], port=app.config['PORT'])
     return flatmatches.objects((Q(localteam_id=team_id) | Q(visitorteam_id=team_id))
                                & (Q(time_status=time_status))
-                               & Q(league_id=league_id) & Q(time_starting_at_date__lte=before_date)).order_by(
+                               & Q(league_id=league_id) & Q(time_starting_at_date__lt=before_date)).order_by(
         'time_starting_at_date-')[:10]
 
 
