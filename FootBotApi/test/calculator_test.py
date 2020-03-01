@@ -20,8 +20,8 @@ def test_build_stats():
     assert getattr(object_to_set, "before_date") == "1/1/2010"
 
 
-def test_CalculatedVariable_calculate():
-     variable =  ComputedFromMatchesField(1, 'stats_data_0_goals', 'stats_data_1_goals', 'out', CalculationMethod.AVG,
+def test_calculated_variable_calculate():
+     variable = ComputedFromMatchesField(1, 'stats_data_0_goals', 'stats_data_1_goals', 'out', CalculationMethod.AVG,
                                           Include.HOME)
      matches = []
      match1 = get_match(1, 1, 2, 3, 0)
@@ -34,7 +34,7 @@ def test_CalculatedVariable_calculate():
      assert variable.get_output_value() == 3
 
 
-def test_CalculatedVariable_calculate_SUM():
+def test_calculated_variable_calculate_sum():
     variable = ComputedFromMatchesField(1, 'stats_data_0_goals', 'stats_data_1_goals', 'out', CalculationMethod.SUM, Include.HOME)
     matches = []
     match1 = get_match(1, 1, 2, 3, 0)
@@ -47,7 +47,7 @@ def test_CalculatedVariable_calculate_SUM():
     assert variable.get_output_value() == 5
 
 
-def test_CalculatedVariable_calculate_SUM_ALL():
+def test_calculated_variable_calculate_sum_all():
     variable = ComputedFromMatchesField(1, 'stats_data_0_goals', 'stats_data_1_goals', 'out', CalculationMethod.SUM, Include.ALL)
     matches = []
     match1 = get_match(1, 1, 2, 3, 0)
@@ -62,7 +62,7 @@ def test_CalculatedVariable_calculate_SUM_ALL():
     assert variable.get_output_value() == 7
 
 
-def test_CalculatedVariable_calculate_COUNT_ALL():
+def test_calculated_variable_calculate_count_all():
     variable = ComputedFromMatchesField(1, 'stats_data_0_goals', 'stats_data_1_goals', 'out', CalculationMethod.COUNT, Include.HOME)
     matches = []
     match1 = get_match(1, 1, 2, 3, 0)
@@ -77,7 +77,7 @@ def test_CalculatedVariable_calculate_COUNT_ALL():
     assert variable.get_output_value() == 2
 
 
-def test_CalculatedVariable_calculate_AWAY_AVG():
+def test_calculated_variable_calculate_away_avg():
     variable = ComputedFromMatchesField(1, 'stats_data_0_goals', 'stats_data_1_goals', 'out', CalculationMethod.AVG, Include.AWAY)
     matches = []
     match1 = get_match(1, 1, 2, 3, 0)
@@ -91,7 +91,8 @@ def test_CalculatedVariable_calculate_AWAY_AVG():
     assert variable.count == 2
     assert variable.get_output_value() == 5
 
-def test_CalculatedVariable_calculate_AWAY_COUNT():
+
+def test_calculated_variable_calculate_away_count():
     variable = ComputedFromMatchesField(1, 'stats_data_0_goals', 'stats_data_1_goals', 'out', CalculationMethod.COUNT, Include.AWAY)
     matches = []
     match1 = get_match(1, 1, 2, 3, 0)
@@ -106,7 +107,7 @@ def test_CalculatedVariable_calculate_AWAY_COUNT():
     assert variable.get_output_value() == 2
 
 
-def test_CalculatedVariable_calculate_AWAY_AVG_ZERO():
+def test_calculated_variable_calculate_away_avg_zero():
     variable = ComputedFromMatchesField(1, 'stats_data_0_goals', 'stats_data_1_goals', 'out', CalculationMethod.AVG, Include.AWAY)
     matches = []
     match1 = get_match(1, 1, 2, 3, 0)
@@ -120,7 +121,8 @@ def test_CalculatedVariable_calculate_AWAY_AVG_ZERO():
     assert variable.count == 0
     assert variable.get_output_value() == 0
 
-def test_CalculatedVariable_calculate_AWAY_SUM():
+
+def test_calculated_variable_calculate_away_sum():
     variable = ComputedFromMatchesField(1, 'stats_data_0_goals', 'stats_data_1_goals', 'out', CalculationMethod.SUM, Include.AWAY)
     matches = []
     match1 = get_match(1, 1, 2, 3, 0)

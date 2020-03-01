@@ -33,7 +33,8 @@ def get_stats(league_id, team_id, before_date, time_status):
 
 @bp.route("/api/v1/matches/<int:match_id>/<time_status>", methods=['GET'])
 def get_match(match_id, time_status):
-    the_matches = fetch_match(match_id,time_status)
+    print(match_id)
+    the_matches = fetch_match(match_id, time_status)
     output = OutputTeamStats()
     for m in the_matches:
         afef = ComputedFromEventsFields(m.events['data'], match_id, m.localteam_id, m.visitorteam_id, minutes)
