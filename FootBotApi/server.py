@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, Blueprint
 from FootBotApi.calculator.ComputedFromEventsFields import ComputedFromEventsFields, minutes
-from FootBotApi.calculator.calculator import build_stats, OutputTeamStats
+from FootBotApi.calculator.calculator import build_historical_stats, OutputTeamStats, build_computed_stats
 from FootBotApi.models import flatmatches, matches
 from mongoengine import connect
 from mongoengine.queryset.visitor import Q
@@ -16,24 +16,23 @@ def create_app():
     the_app.register_blueprint(bp)
     return the_app
 
-
-@bp.route("/api/v1/flatmatches/<int:league_id>/<int:team_id>/<before_date>/<time_status>", methods=['GET'])
-def get_flat_matches(league_id, team_id, before_date, time_status):
-    items = fetch_flat_matches(before_date, league_id, team_id, time_status)
-    return jsonify(items.to_json())
-
-
-@bp.route("/api/v1/stats/<int:league_id>/<int:team_id>/<before_date>/<time_status>", methods=['GET'])
-def get_stats(league_id, team_id, before_date, time_status):
+@bp.route("/api/v1/historical_stats/<int:league_id>/<int:team_id>/<before_date>/<time_status>", methods=['GET'])
+def get_historical_stats(league_id, team_id, before_date, time_status):
     items = fetch_flat_matches(before_date, league_id, team_id, time_status)
     output = OutputTeamStats()
-    build_stats(items, team_id, league_id, before_date, output)
+    build_historical_stats(items, team_id, league_id, before_date, output)
     return jsonify(output.toJSON())
 
+@bp.route("/api/v1/computed_stats/<int:match_id>/<time_status>", methods=['GET'])
+def get_computed_stats(match_id, time_status):
+    the_matches = fetch_match(match_id, time_status)
+    output = OutputTeamStats()
+    for m in the_matches:
+        build_computed_stats(output)
+    return jsonify(output.toJSON())
 
-@bp.route("/api/v1/matches/<int:match_id>/<time_status>", methods=['GET'])
+@bp.route("/api/v1/match_events_stats/<int:match_id>/<time_status>", methods=['GET'])
 def get_match(match_id, time_status):
-    print(match_id)
     the_matches = fetch_match(match_id, time_status)
     output = OutputTeamStats()
     for m in the_matches:
@@ -42,6 +41,12 @@ def get_match(match_id, time_status):
         afef.compute_output_values_from_events()
         afef.add_output_values_to_object(output)
     return jsonify(output.toJSON())
+
+
+@bp.route("/api/v1/flatmatches/<int:league_id>/<int:team_id>/<before_date>/<time_status>", methods=['GET'])
+def get_flat_matches(league_id, team_id, before_date, time_status):
+    items = fetch_flat_matches(before_date, league_id, team_id, time_status)
+    return jsonify(items.to_json())
 
 
 def fetch_flat_matches(before_date, league_id, team_id, time_status):

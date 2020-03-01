@@ -1,5 +1,6 @@
 from FootBotApi.calculator.ComputedFromMatchesField import ComputedFromMatchesField
-from FootBotApi.calculator.calculator import OutputTeamStats, compute_aggregated_fields, build_stats
+from FootBotApi.calculator.calculator import OutputTeamStats, compute_historical_fields, build_historical_stats, \
+    build_computed_stats
 from FootBotApi.test.helpers import get_match
 from FootBotApi.calculator.ComputedFromMatchesField import  Include
 from FootBotApi.calculator.CalculationMethod import  CalculationMethod
@@ -14,7 +15,7 @@ def test_build_stats():
     variable = ComputedFromMatchesField(1, 'stats_data_0_goals', 'stats_data_1_goals', 'out', CalculationMethod.AVG,
                                         Include.ALL)
     variable_pairs.append(variable)
-    build_stats(matches, 1, 1, "1/1/2010", object_to_set)
+    build_historical_stats(matches, 1, 1, "1/1/2010", object_to_set)
     assert getattr(object_to_set, "team_id") == 1
     assert getattr(object_to_set, "league_id") == 1
     assert getattr(object_to_set, "before_date") == "1/1/2010"
@@ -135,3 +136,27 @@ def test_calculated_variable_calculate_away_sum():
     assert variable.sum == 2
     assert variable.count == 1
     assert variable.get_output_value() == 2
+
+
+class TestObject():
+    pass
+
+
+def test_build_computed_stats():
+    to = TestObject()
+    match1 = get_match(1, 1, 2, 3, 0)
+    build_computed_stats(match1,to)
+    assert to.home_points == 3
+    assert to.away_points == 0
+
+    to2 = TestObject()
+    match2 = get_match(1, 1, 2, 3, 3)
+    build_computed_stats(match2, to2)
+    assert to2.home_points == 1
+    assert to2.away_points == 1
+
+    to3 = TestObject()
+    match3 = get_match(1, 1, 2, 1, 3)
+    build_computed_stats(match3, to3)
+    assert to3.home_points == 0
+    assert to3.away_points == 3

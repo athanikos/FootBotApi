@@ -17,7 +17,7 @@ def test_compute():
     cf1 = ComputedFormula('a','b',Operator.EQUAL,33,0,to)
     cf2 = ComputedFormula('a','b',Operator.GREATER_THAN,66,0,to)
     formulas = [cf1,cf2]
-    field = ComputedField(  'test', to, formulas )
+    field = ComputedField('test', to, to, formulas )
     field.compute()
     assert field.result == 66
     assert to.test == 66

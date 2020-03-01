@@ -3,9 +3,10 @@ from enum import Enum
 
 class ComputedField:
 
-    def __init__(self, output_field_name, object_to_set_or_get, formulas ):
+    def __init__(self, output_field_name, object_get, object_to_set, formulas):
         self.output_field_name = output_field_name
-        self.object_to_set_or_get = object_to_set_or_get
+        self.object_get = object_get
+        self.object_to_set = object_to_set
         self.formulas = formulas
         self.result = 0
 
@@ -14,19 +15,19 @@ class ComputedField:
             cf.compute()
             if cf.is_true:
                 self.result = cf.result
-                setattr(self.object_to_set_or_get,self.output_field_name,self.result)
-                break
+                setattr(self.object_to_set, self.output_field_name, self.result)
+                return
 
 
 class ComputedFormula:
     def __init__(self, input_field_name_1, input_field_name_2,operator, true_result, false_result,
-                 object_to_get_values_from):
+                 object_to_get):
         self.input_field_name_1 = input_field_name_1
         self.input_field_name_2 = input_field_name_2
         self.operator = operator
         self.true_result = true_result
         self.false_result = false_result
-        self.object_to_get_values_from = object_to_get_values_from
+        self.object_to_get_values_from = object_to_get
         self.result = 0
         self.is_true = False
 
