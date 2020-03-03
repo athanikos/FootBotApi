@@ -16,14 +16,16 @@ def create_app():
     the_app.register_blueprint(bp)
     return the_app
 
-@bp.route("/api/v1/historical_stats/<int:league_id>/<int:team_id>/<before_date>/<time_status>", methods=['GET'])
+
+@bp.route("/api/v1/flat-matches/<int:league_id>/<int:team_id>/<before_date>/<time_status>/historical-stats", methods=['GET'])
 def get_historical_stats(league_id, team_id, before_date, time_status):
     items = fetch_flat_matches(before_date, league_id, team_id, time_status)
     output = OutputTeamStats()
     build_historical_stats(items, team_id, league_id, before_date, output)
     return jsonify(output.toJSON())
 
-@bp.route("/api/v1/computed_stats/<int:match_id>/<time_status>", methods=['GET'])
+
+@bp.route("/api/v1/flat-matches/<int:match_id>/<time_status>/computed-stats", methods=['GET'])
 def get_computed_stats(match_id, time_status):
     the_matches = fetch_flat_match(match_id, time_status)
     output = OutputTeamStats()
@@ -31,7 +33,8 @@ def get_computed_stats(match_id, time_status):
         build_computed_stats(m,output)
     return jsonify(output.toJSON())
 
-@bp.route("/api/v1/match_events_stats/<int:match_id>/<time_status>", methods=['GET'])
+
+@bp.route("/api/v1/matches/<int:match_id>/<time_status>/event-stats", methods=['GET'])
 def get_match(match_id, time_status):
     the_matches = fetch_match(match_id, time_status)
     output = OutputTeamStats()
@@ -42,10 +45,12 @@ def get_match(match_id, time_status):
         afef.add_output_values_to_object(output)
     return jsonify(output.toJSON())
 
-@bp.route("/api/v1/flatmatches/<int:league_id>/<int:team_id>/<before_date>/<time_status>", methods=['GET'])
+
+@bp.route("/api/v1/flat-matches/<int:league_id>/<int:team_id>/<before_date>/<time_status>", methods=['GET'])
 def get_flat_matches(league_id, team_id, before_date, time_status):
     items = fetch_flat_matches(before_date, league_id, team_id, time_status)
     return jsonify(items.to_json())
+
 
 def fetch_flat_matches(before_date, league_id, team_id, time_status):
     connect(app.config['DATABASE'], host=app.config['SERVERNAME'], port=app.config['PORT'])
@@ -54,9 +59,11 @@ def fetch_flat_matches(before_date, league_id, team_id, time_status):
                                & Q(league_id=league_id) & Q(time_starting_at_date__lt=before_date)).order_by(
         'time_starting_at_date-')[:10]
 
+
 def fetch_match(the_match_id, time_status):
     connect(app.config['DATABASE'], host=app.config['SERVERNAME'], port=app.config['PORT'])
     return matches.objects((Q(match_id=the_match_id) & Q(time__status=time_status)))
+
 
 def fetch_flat_match(the_match_id, time_status):
     connect(app.config['DATABASE'], host=app.config['SERVERNAME'], port=app.config['PORT'])

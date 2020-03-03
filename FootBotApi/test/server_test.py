@@ -52,15 +52,15 @@ def mock_fetch_match():
 
 
 def test_historical_stats_uri(mock_fetch_flat_matches, test_client):
-    response = test_client.get('/api/v1/historical_stats/72/629/2020-01-20/FT')
+    response = test_client.get('/api/v1/flat-matches/72/629/2020-01-20/FT/historical-stats')
     assert response.status_code == 200
     data_json2 = json.loads(response.get_json(silent=True, force=True))
     assert data_json2['league_id'] == 72
     assert data_json2['team_id'] == 629
 
 
-def testmatch_events_stats_uri(mock_fetch_match, test_client):
-    response = test_client.get('/api/v1/match_events_stats/72/FT')
+def test_match_events_stats_uri(mock_fetch_match, test_client):
+    response = test_client.get('/api/v1/matches/72/FT/event-stats')
     assert response.status_code == 200
     data_json2 = json.loads(response.get_json(silent=True, force=True))
     assert data_json2['HOME_TEAM_GOALS_UP_TO_14'] == 1
@@ -76,7 +76,7 @@ def test_get_computed_stats(test_client):
     the_match.stats_data_1_goals = 0
     the_match.save(force_insert=True ,validate = False,clean=False)
 
-    response = test_client.get('/api/v1/computed_stats/2/FT')
+    response = test_client.get('/api/v1/flat-matches/2/FT/computed-stats')
     data_json2 = json.loads(response.get_json(silent=True, force=True))
     assert response.status_code == 200
     print(data_json2)
@@ -100,7 +100,7 @@ def test_get_match(test_client):
     the_event.type ='goal'
     the_match.events = { 'data' : [ the_event ] }
     the_match.save(force_insert=True ,validate = False,clean=False)
-    response = test_client.get('/api/v1/match_events_stats/2/FT')
+    response = test_client.get('/api/v1/matches/2/FT/event-stats')
     data_json2 = json.loads(response.get_json(silent=True, force=True))
     assert response.status_code == 200
     assert data_json2['home_team_id'] == 6666
@@ -123,17 +123,17 @@ def test_get_flat_matches(test_client):
     flat_match2.time_starting_at_date = "2020-01-20"
 
     flat_match1.save(force_insert=True ,validate = False,clean=False)
-    response = test_client.get('/api/v1/flatmatches/3/1/2020-01-21/FT')
+    response = test_client.get('/api/v1/flat-matches/3/1/2020-01-21/FT')
     data_json2 = json.loads(response.get_json(silent=True, force=True))
     assert response.status_code == 200
     assert len(data_json2) == 1
 
-    response = test_client.get('/api/v1/flatmatches/3/1/2020-01-20/FT')
+    response = test_client.get('/api/v1/flat-matches/3/1/2020-01-20/FT')
     data_json2 = json.loads(response.get_json(silent=True, force=True))
     assert response.status_code == 200
     assert len(data_json2) == 0
 
-    response = test_client.get('/api/v1/flatmatches/3/1/2020-01-19/FT')
+    response = test_client.get('/api/v1/flat-matches/3/1/2020-01-19/FT')
     data_json2 = json.loads(response.get_json(silent=True, force=True))
     assert response.status_code == 200
     assert len(data_json2) == 0
