@@ -16,6 +16,7 @@ def create_app():
     the_app.register_blueprint(bp)
     return the_app
 
+
 @bp.route("/api/v1/historical_stats/<int:league_id>/<int:team_id>/<before_date>/<time_status>", methods=['GET'])
 def get_historical_stats(league_id, team_id, before_date, time_status):
     items = fetch_flat_matches(before_date, league_id, team_id, time_status)
@@ -23,13 +24,15 @@ def get_historical_stats(league_id, team_id, before_date, time_status):
     build_historical_stats(items, team_id, league_id, before_date, output)
     return jsonify(output.toJSON())
 
+
 @bp.route("/api/v1/computed_stats/<int:match_id>/<time_status>", methods=['GET'])
 def get_computed_stats(match_id, time_status):
-    the_matches = fetch_match(match_id, time_status)
+    the_matches = fetch_flat_match(match_id, time_status)
     output = OutputTeamStats()
     for m in the_matches:
-        build_computed_stats(output)
+        build_computed_stats(m,output)
     return jsonify(output.toJSON())
+
 
 @bp.route("/api/v1/match_events_stats/<int:match_id>/<time_status>", methods=['GET'])
 def get_match(match_id, time_status):
@@ -60,6 +63,12 @@ def fetch_flat_matches(before_date, league_id, team_id, time_status):
 def fetch_match(the_match_id, time_status):
     connect(app.config['DATABASE'], host=app.config['SERVERNAME'], port=app.config['PORT'])
     return matches.objects((Q(match_id=the_match_id) & Q(time__status=time_status)))
+
+
+def fetch_flat_match(the_match_id, time_status):
+    connect(app.config['DATABASE'], host=app.config['SERVERNAME'], port=app.config['PORT'])
+    return flatmatches.objects((Q(match_id=the_match_id) & Q(time_status=time_status)))
+
 
 
 if __name__ == '__main__':

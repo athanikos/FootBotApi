@@ -2,6 +2,7 @@ from mongoengine import *
 
 
 class flatmatches(Document):
+    match_id = IntField(db_field='id')
     league_id = IntField()
     localteam_id = IntField()
     visitorteam_id = IntField()
@@ -12,7 +13,6 @@ class flatmatches(Document):
     time_minute = IntField()
     stats_data_1_goals = IntField()
     stats_data_0_goals = IntField()
-    id = IntField()
     time_extra_minute = IntField()
     stats_data_0_corners = IntField()
     stats_data_1_shots_ongoal = IntField()

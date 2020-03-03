@@ -51,19 +51,37 @@ def mock_fetch_match():
         yield [m]
 
 
-def test_stats_uri(mock_fetch_flat_matches, test_client):
+def test_historical_stats_uri(mock_fetch_flat_matches, test_client):
     response = test_client.get('/api/v1/historical_stats/72/629/2020-01-20/FT')
     assert response.status_code == 200
     data_json2 = json.loads(response.get_json(silent=True, force=True))
     assert data_json2['league_id'] == 72
     assert data_json2['team_id'] == 629
 
-    
-def test_matches_uri(mock_fetch_match, test_client):
+
+def testmatch_events_stats_uri(mock_fetch_match, test_client):
     response = test_client.get('/api/v1/match_events_stats/72/FT')
     assert response.status_code == 200
     data_json2 = json.loads(response.get_json(silent=True, force=True))
     assert data_json2['HOME_TEAM_GOALS_UP_TO_14'] == 1
+
+
+def test_get_computed_stats(test_client):
+    connect(app.config['DATABASE'], host=app.config['SERVERNAME'], port=app.config['PORT'])
+    flatmatches.objects.all().delete()
+    the_match = flatmatches()
+    the_match.match_id = 2
+    the_match.time_status = 'FT'
+    the_match.stats_data_0_goals = 1
+    the_match.stats_data_1_goals = 0
+    the_match.save(force_insert=True ,validate = False,clean=False)
+
+    response = test_client.get('/api/v1/computed_stats/2/FT')
+    data_json2 = json.loads(response.get_json(silent=True, force=True))
+    assert response.status_code == 200
+    print(data_json2)
+    assert data_json2['home_points'] == 3
+    assert data_json2['away_points'] == 0
 
 
 def test_get_match(test_client):
