@@ -10,7 +10,7 @@ with open("README.md", "r") as fh:
 setup(
     name='FootBotApi',
     version="0.0.1",
-    license='Apache Software License',
+    license='MIT License',
     author='Nikos Athanasakis',
     packages=setuptools.find_packages(),
     author_email='athanikos@gmail.com',

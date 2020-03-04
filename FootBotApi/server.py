@@ -1,4 +1,6 @@
 from flask import Flask, jsonify, Blueprint
+from keyring import get_password
+
 from FootBotApi.calculator.ComputedFromEventsFields import ComputedFromEventsFields, minutes
 from FootBotApi.calculator.calculator import build_historical_stats, OutputTeamStats, build_computed_stats
 from FootBotApi.models import flatmatches, matches
@@ -6,7 +8,7 @@ from mongoengine import connect
 from mongoengine.queryset.visitor import Q
 from FootBotApi.config import configure_app
 from flask import current_app as app
-
+import keyring
 bp = Blueprint('myapp', __name__)
 
 
@@ -53,7 +55,7 @@ def get_flat_matches(league_id, team_id, before_date, time_status):
 
 
 def fetch_flat_matches(before_date, league_id, team_id, time_status):
-    connect(app.config['DATABASE'], host=app.config['SERVERNAME'], port=app.config['PORT'])
+    do_connect()
     return flatmatches.objects((Q(localteam_id=team_id) | Q(visitorteam_id=team_id))
                                & (Q(time_status=time_status))
                                & Q(league_id=league_id) & Q(time_starting_at_date__lt=before_date)).order_by(
@@ -61,15 +63,19 @@ def fetch_flat_matches(before_date, league_id, team_id, time_status):
 
 
 def fetch_match(the_match_id, time_status):
-    connect(app.config['DATABASE'], host=app.config['SERVERNAME'], port=app.config['PORT'])
+    do_connect()
     return matches.objects((Q(match_id=the_match_id) & Q(time__status=time_status)))
 
 
 def fetch_flat_match(the_match_id, time_status):
-    connect(app.config['DATABASE'], host=app.config['SERVERNAME'], port=app.config['PORT'])
+    do_connect()
     return flatmatches.objects((Q(match_id=the_match_id) & Q(time_status=time_status)))
 
 
+def do_connect():
+    url = 'mongodb://foot:' + get_password('FootBotApi', 'foot') + '@' + app.config['SERVERNAME'] + ':' + str(app.config['PORT']) + '/' + app.config['DATABASE']
+    print(url)
+    connect( db=app.config['DATABASE'], username='foot', password=get_password('FootBotApi', 'foot'), host=url)
 
 if __name__ == '__main__':
     bp.run()
