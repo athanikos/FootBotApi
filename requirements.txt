@@ -7,4 +7,4 @@ pytest==4.6.9
 pytest-cov
 pytest-mock==2.0.0
 python-dotenv==0.10.5
-keyring==21.1.0
+keyring==18.0.1

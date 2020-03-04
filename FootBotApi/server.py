@@ -74,7 +74,6 @@ def fetch_flat_match(the_match_id, time_status):
 
 def do_connect():
     url = 'mongodb://foot:' + get_password('FootBotApi', 'foot') + '@' + app.config['SERVERNAME'] + ':' + str(app.config['PORT']) + '/' + app.config['DATABASE']
-    print(url)
     connect( db=app.config['DATABASE'], username='foot', password=get_password('FootBotApi', 'foot'), host=url)
 
 if __name__ == '__main__':
