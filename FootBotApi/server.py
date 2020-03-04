@@ -1,14 +1,14 @@
 from flask import Flask, jsonify, Blueprint
+from flask import current_app as app
 from keyring import get_password
+from mongoengine import connect
+from mongoengine.queryset.visitor import Q
 
 from FootBotApi.calculator.ComputedFromEventsFields import ComputedFromEventsFields, minutes
 from FootBotApi.calculator.calculator import build_historical_stats, OutputTeamStats, build_computed_stats
-from FootBotApi.models import flatmatches, matches
-from mongoengine import connect
-from mongoengine.queryset.visitor import Q
 from FootBotApi.config import configure_app
-from flask import current_app as app
-import keyring
+from FootBotApi.models import flatmatches, matches
+
 bp = Blueprint('myapp', __name__)
 
 
