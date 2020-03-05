@@ -9,8 +9,7 @@ script: pytest --cov=./
 before_script:
 - sleep 15
 - mongo mydb_test --eval 'db.createUser({user:"travis",pwd:"test",roles:["readWrite"]});'
-- python -c "from keyring import set_password "
-- python -c "set_password('FootBotApi', 'foot', 'test') "
+- python -c "from keyring import set_password &  set_password('FootBotApi', 'foot', 'test')  "
 after_success:
 - codecov
 password:
