@@ -76,5 +76,6 @@ def do_connect():
     url = 'mongodb://foot:' + get_password('FootBotApi', 'foot') + '@' + app.config['SERVERNAME'] + ':' + str(app.config['PORT']) + '/' + app.config['DATABASE']
     connect( db=app.config['DATABASE'], username='foot', password=get_password('FootBotApi', 'foot'), host=url)
 
+
 if __name__ == '__main__':
     bp.run()
