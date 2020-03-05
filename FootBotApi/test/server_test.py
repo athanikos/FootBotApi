@@ -4,7 +4,7 @@ from FootBotApi.models import flatmatches, matches, Event, Time
 from FootBotApi.server import create_app, connect
 from flask import current_app as app
 import json
-from keyring import set_password
+from keyring import set_password, get_password
 
 
 @pytest.fixture(scope='module')
@@ -71,7 +71,7 @@ def test_match_events_stats_uri(mock_fetch_match, test_client):
 
 def test_get_computed_stats(test_client):
     set_password('FootBotApi', 'foot', 'test')
-    connect(app.config['DATABASE'], host=app.config['SERVERNAME'], port=app.config['PORT'])
+    do_connect()
     flatmatches.objects.all().delete()
     the_match = flatmatches()
     the_match.match_id = 2
@@ -90,7 +90,7 @@ def test_get_computed_stats(test_client):
 
 def test_get_match(test_client):
     set_password('FootBotApi', 'foot', 'test')
-    connect(app.config['DATABASE'], host=app.config['SERVERNAME'], port=app.config['PORT'])
+    do_connect()
     matches.objects.all().delete()
     the_match = matches()
     the_match.visitorteam_id = 999
@@ -111,9 +111,14 @@ def test_get_match(test_client):
     assert data_json2['home_team_id'] == 6666
 
 
+def do_connect():
+    url = 'mongodb://foot:' + get_password('FootBotApi', 'foot') + '@' + app.config['SERVERNAME'] + ':' + str(app.config['PORT']) + '/' + app.config['DATABASE']
+    connect( db=app.config['DATABASE'], username='foot', password=get_password('FootBotApi', 'foot'), host=url)
+
+
 def test_get_flat_matches(test_client):
     set_password('FootBotApi', 'foot', 'test')
-    connect(app.config['DATABASE'], host=app.config['SERVERNAME'], port=app.config['PORT'])
+    do_connect()
     flatmatches.objects.all().delete()
     flat_match1 = flatmatches()
     flat_match1.localteam_id = 1
