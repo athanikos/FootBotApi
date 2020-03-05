@@ -1,19 +1,15 @@
 language: pythons
-
 python:
-  - 2.7
-  - 3.6
-
+- 2.7
+- 3.6
 services:
-  - mongodb
+- mongodb
 install: pip install -r requirements.txt
-
 script: pytest --cov=./
-
 before_script:
-  - sleep 15
-  - mongo mydb_test --eval 'db.createUser({user:"travis",pwd:"test",roles:["readWrite"]});'
-
+- sleep 15
+- mongo mydb_test --eval 'db.createUser({user:"travis",pwd:"test",roles:["readWrite"]});'
 after_success:
-  - codecov
-
+- codecov
+password:
+ secure: "ePNRAlKh/6b+J7Jkf2gzov9fciN2lH45Kq5JAdNpCOYaFKo+iTcBPnpzRXdzHU3bDW0YSCOid/L7GNSCgzhDpyEI/T0khZjMAJ/X+ejSASOZr0SRR1v+okZrHVXkQnRhBo7b4T2a5RFQVR456cyxJCMYwBON4V4YjK/C6MIIkP16uYUA8BBsSCHK4ed2Y1MBXTaxwU2jS/ljJC5XUYI/AwkNIrHQ7CU6/9X0bO/OHAMzlZH6MLY973RA8eEuMZF5lWnXZIKSrheUXjGOsOjCDp6lhXqNKl4B3U9eU38Ps1KPZeiFgq4PhdBWrJWLGQTLMSgghAGOBMWwyGuM6+12S1AXa/Ny6L9ScmdTW+w5eoj9JzCLME285sjYtAKGwbtW2oPJO0A2hbvqxV8kU8lxz060bDpoG+ePpUGw9367idRFCAD2dl9h4jLT6VOPUKu8Pueh+zKXl8lxHeItn7mUWQgojUeCd68/dXfejG4no2oCtFvlH4UGo8ggSUEAVJvjdVUUjxXtig2+UuXISCwP3apsBqVyJscsshNPd07eLnFr8MELrU20d9dnUBuyUOoIJPdkhxZ0azHgDXPOHpp9atbG+5a+ELq8d5VF93MiF5f8SI5o7IrTmSmR+i1eOrjDWZupsk35x6AnIrw7PChZN3ITTFeP/8xNoDyqbJE2nzw="
