@@ -10,7 +10,7 @@ before_script:
 - sleep 15
 - mongo mydb_test --eval 'db.createUser({user:"travis",pwd:"test",roles:["readWrite"]});'
 - pip install keyring
-- python3 set_password.py
+- python set_password.py
 after_success:
 - codecov
 password:
