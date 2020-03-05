@@ -4,6 +4,7 @@ from FootBotApi.models import flatmatches, matches, Event, Time
 from FootBotApi.server import create_app, connect
 from flask import current_app as app
 import json
+from keyring import set_password
 
 
 @pytest.fixture(scope='module')
@@ -52,6 +53,7 @@ def mock_fetch_match():
 
 
 def test_historical_stats_uri(mock_fetch_flat_matches, test_client):
+    set_password('FootBotApi', 'foot', 'test')
     response = test_client.get('/api/v1/flat-matches/72/629/2020-01-20/FT/historical-stats')
     assert response.status_code == 200
     data_json2 = json.loads(response.get_json(silent=True, force=True))
@@ -60,6 +62,7 @@ def test_historical_stats_uri(mock_fetch_flat_matches, test_client):
 
 
 def test_match_events_stats_uri(mock_fetch_match, test_client):
+    set_password('FootBotApi', 'foot', 'test')
     response = test_client.get('/api/v1/matches/72/FT/event-stats')
     assert response.status_code == 200
     data_json2 = json.loads(response.get_json(silent=True, force=True))
@@ -67,6 +70,7 @@ def test_match_events_stats_uri(mock_fetch_match, test_client):
 
 
 def test_get_computed_stats(test_client):
+    set_password('FootBotApi', 'foot', 'test')
     connect(app.config['DATABASE'], host=app.config['SERVERNAME'], port=app.config['PORT'])
     flatmatches.objects.all().delete()
     the_match = flatmatches()
@@ -85,6 +89,7 @@ def test_get_computed_stats(test_client):
 
 
 def test_get_match(test_client):
+    set_password('FootBotApi', 'foot', 'test')
     connect(app.config['DATABASE'], host=app.config['SERVERNAME'], port=app.config['PORT'])
     matches.objects.all().delete()
     the_match = matches()
@@ -107,6 +112,7 @@ def test_get_match(test_client):
 
 
 def test_get_flat_matches(test_client):
+    set_password('FootBotApi', 'foot', 'test')
     connect(app.config['DATABASE'], host=app.config['SERVERNAME'], port=app.config['PORT'])
     flatmatches.objects.all().delete()
     flat_match1 = flatmatches()
