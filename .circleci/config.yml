@@ -35,6 +35,7 @@ jobs:
       - run:
           name: code coverage
           command: |
+             . venv/bin/activate
              py.test --cov=./
       - codecov/upload:
           file: coverage/*.json
