@@ -6,6 +6,8 @@ jobs:
       - image: circleci/python:3.6.4  # primary container for the build jo
     steps:
       - checkout
+      - run: sudo chown -R circleci:circleci /usr/local/bin
+      - run: sudo chown -R circleci:circleci /usr/local/lib/python3.6/site-packages
       - run:
             command: |  # use pipenv to install dependencies
               sudo pip install pipenv
