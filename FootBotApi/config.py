@@ -9,7 +9,9 @@ class BaseConfig(object):
     PORT = 27017
     DATABASE = "book"
     USERNAME = "dummy"
-    PASSWORD = "dummy"
+
+    def get_password(self):
+        return "dummy"
 
 
 class DevelopmentConfig(BaseConfig):
@@ -19,7 +21,9 @@ class DevelopmentConfig(BaseConfig):
     PORT = 27017
     DATABASE = "testbook"
     USERNAME = "admin"
-    PASSWORD = "admin"
+
+    def get_password(self):
+        return "admin"
 
 
 class ProductionConfig(BaseConfig):
@@ -29,7 +33,9 @@ class ProductionConfig(BaseConfig):
     PORT = 27017
     DATABASE = "book"
     USERNAME = "foot"
-    #PASSWORD = get_password("FootBotApi","foot")
+
+    def get_password(self):
+        return get_password("FootBotApi", "foot")
 
 
 config = {
@@ -42,4 +48,3 @@ config = {
 def configure_app(app):
     config_name = os.getenv('FLASK_ENV', 'default')
     app.config.from_object(config[config_name])
-

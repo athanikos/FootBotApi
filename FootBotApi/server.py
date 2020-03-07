@@ -8,6 +8,7 @@ from FootBotApi.calculator.ComputedFromEventsFields import ComputedFromEventsFie
 from FootBotApi.calculator.calculator import build_historical_stats, OutputTeamStats, build_computed_stats
 from FootBotApi.config import configure_app
 from FootBotApi.models import flatmatches, matches
+from FootBotApi.config import get_password
 
 bp = Blueprint('myapp', __name__)
 
@@ -65,13 +66,15 @@ def fetch_match(the_match_id, time_status):
     do_connect()
     return matches.objects((Q(match_id=the_match_id) & Q(time__status=time_status)))
 
+
 def fetch_flat_match(the_match_id, time_status):
     do_connect()
     return flatmatches.objects((Q(match_id=the_match_id) & Q(time_status=time_status)))
 
+
 def do_connect():
-    url = 'mongodb://' + app.config['USERNAME'] + ':' + app.config['PASSWORD']+ '@' + app.config['SERVERNAME'] + ':' + str(app.config['PORT']) + '/?authSource=admin'
-    connect( db=app.config['DATABASE'], username=app.config['USERNAME'], password=app.config['PASSWORD'], host=url)
+    url = 'mongodb://' + app.config['USERNAME'] + ':' + app.config.get_password() + '@' + app.config['SERVERNAME'] + ':' + str(app.config['PORT']) + '/?authSource=admin'
+    connect( db=app.config['DATABASE'], username=app.config['USERNAME'], host=url)
 
 
 if __name__ == '__main__':
