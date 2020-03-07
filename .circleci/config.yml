@@ -16,3 +16,18 @@ jobs:
           name: pip install
           command: |  # use pipenv to install dependencies
             pip install -r requirements.txt
+      - run:
+          name: Setup testing environment
+          command: |
+            pip install '.[test]' --user
+            echo $HOME
+      - run:
+          name: Run Tests
+          command: |
+            $HOME/.local/bin/coverage run -m pytest
+            $HOME/.local/bin/coverage report
+            $HOME/.local/bin/coverage html  # open htmlcov/index.html in a browser
+      - store_artifacts:
+          path: htmlcov
+
+
