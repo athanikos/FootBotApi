@@ -32,3 +32,6 @@ jobs:
           command: |
             . venv/bin/activate
             py.test -vv FootBotApi/test
+      - codecov/upload:
+          file: coverage/*.json
+          flags: frontend
