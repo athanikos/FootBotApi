@@ -65,11 +65,9 @@ def fetch_match(the_match_id, time_status):
     do_connect()
     return matches.objects((Q(match_id=the_match_id) & Q(time__status=time_status)))
 
-
 def fetch_flat_match(the_match_id, time_status):
     do_connect()
     return flatmatches.objects((Q(match_id=the_match_id) & Q(time_status=time_status)))
-
 
 def do_connect():
     url = 'mongodb://' + app.config['USERNAME'] + ':' + app.config['PASSWORD']+ '@' + app.config['SERVERNAME'] + ':' + str(app.config['PORT']) + '/?authSource=admin'
