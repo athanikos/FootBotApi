@@ -24,7 +24,7 @@ jobs:
       - run:
           name: Runnning tests
           command: |
-            pipenv run python ~/FootBotApi/calculator_test.py test
+            pipenv run python FootBotApi/calculator_test.py test
 
 
 
