@@ -1,4 +1,5 @@
 version: 2
+working_directory: ~/FootBotApi
 jobs:
   build:
     docker:
