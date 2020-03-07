@@ -17,9 +17,10 @@ class DevelopmentConfig(BaseConfig):
     TESTING = True
     SERVERNAME = "localhost"
     PORT = 27017
-    DATABASE = "testbook"
+    DATABASE = "admin"
     USERNAME = "admin"
     PASSWORD = "admin"
+
 
 class ProductionConfig(BaseConfig):
     DEBUG = False
