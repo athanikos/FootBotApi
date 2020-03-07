@@ -10,5 +10,6 @@ jobs:
               sudo pip install pipenv
               pipenv install
       - run:
-            command: |  # use pipenv to install dependencies
-              sudo pip install ~/requirements.txt
+          name: pip install
+          command: |  # use pipenv to install dependencies
+            pip install -r requirements.txt
