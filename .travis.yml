@@ -8,15 +8,6 @@ install: pip install -r requirements.txt
 script: pytest --cov=./
 before_script:
 - sleep 15
-- mongo mydb_test --eval 'db.createUser({user:"admin",pwd:"admin","roles": [
-{
- "role": "userAdminAnyDatabase",
- "db": "admin"
-},
-{
- "role": "readWrite",
- "db": "testbook"
-}
-]);'
+- mongo mydb_test --eval 'db.createUser({user:"admin",pwd:"admin","roles": [{"role": "userAdminAnyDatabase","db": "admin"},{"role": "readWrite","db": "testbook"}]);'
 after_success:
 - codecov
