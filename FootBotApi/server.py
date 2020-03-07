@@ -73,7 +73,7 @@ def fetch_flat_match(the_match_id, time_status):
 
 
 def do_connect():
-    url = 'mongodb://' + app.config['USERNAME'] + ':' + app.config.get_password() + '@' + app.config['SERVERNAME'] + ':' + str(app.config['PORT']) + '/?authSource=admin'
+    url = 'mongodb://' + app.config['USERNAME'] + ':' + app.config['PASSWORD'] + '@' + app.config['SERVERNAME'] + ':' + str(app.config['PORT']) + '/?authSource=admin'
     connect( db=app.config['DATABASE'], username=app.config['USERNAME'], host=url)
 
 

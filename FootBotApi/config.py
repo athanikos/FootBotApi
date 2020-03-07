@@ -21,9 +21,7 @@ class DevelopmentConfig(BaseConfig):
     PORT = 27017
     DATABASE = "testbook"
     USERNAME = "admin"
-
-    def get_password(self):
-        return "admin"
+    PASSWORD = "admin"
 
 
 class ProductionConfig(BaseConfig):
@@ -33,9 +31,7 @@ class ProductionConfig(BaseConfig):
     PORT = 27017
     DATABASE = "book"
     USERNAME = "foot"
-
-    def get_password(self):
-        return get_password("FootBotApi", "foot")
+    PASSWORD = ""
 
 
 config = {
@@ -47,4 +43,7 @@ config = {
 
 def configure_app(app):
     config_name = os.getenv('FLASK_ENV', 'default')
+    if config_name == ProductionConfig:
+        config[config_name].PASSWORD = get_password('FootBotApi',config[config_name].USERNAME)
+
     app.config.from_object(config[config_name])

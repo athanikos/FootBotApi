@@ -36,4 +36,4 @@ jobs:
           name: Code coverage
           command: |
              . venv/bin/activate
-             py.test --cov='FootBotApi/calculator FootBotApi'
+             py.test --cov=FootBotApi/calculator FootBotApi
