@@ -8,6 +8,8 @@ install: pip install -r requirements.txt
 script: pytest --cov=./
 before_script:
 - sleep 15
-- mongo mydb_test --eval 'db.createUser({user:"admin",pwd:"admin","roles": [{"role": "userAdminAnyDatabase","db": "admin"},{"role": "readWrite","db": "testbook"}]);'
+- mongo mydb_test --eval 'db.createUser({user:"admin",pwd:"admin",roles:["readWrite"]});'
 after_success:
 - codecov
+password:
+ secure: "auNW/DYgH09RejN/USexUBTn9mPYena11FhRGKJQ9f+og4FOr8sWcRqJRSLI3bHcX5OKOiHhfkiyeB1rIjQELO73wR3OvCgRb3JdK5r3x5GIA475emcNhYZVlrBudSEh3ZK/Kju71vvt34ok3DFxH+ZC2fESOIpvNnDe4Jq7b3t7NzCciPaJPmxHF8QKnyo84KYfl14QefFMJCriepc2Z/uKXQgbYKv9pj0TmoqWxp+EUZtcitP/HerRAY2UzT7XCpcWC3b6s2ryb7hli4wzAn8aZwBW8qWPWz425K1DRMR/H5qIrmf9Gv66R/xoFaFnV9FDDTlhRFqzR72UFt43DVsxuPLd5y6dNdySARiomrXEJY5BN25rvYA/mxvy3KKcFUj6XcPuIOaK8YroCWXDgORnEvJXHtauEm46ZX2ZZaNQyZFhVJDs48sEb4VHz5/9Nkz0MiyLVf8mRQF/2Se36A+1qGNvrK2iR1WPRHDZbEGjg84DeLJ7g4ffGx2biIcKWr6z+6ninUMu5bozd17owSFCDPOfXL81shd/0fWjo7RmtKaSSLAAX2yB04m1YAKhTNojRqxJpUUPh9Y6NLFcejdV3xRrsPu6vjXcGugleRl2k7ucnYMLWgzIIIrg7+kWx9NSaf3+o6E9WDwOFf7A5QdfmlAJKh5LtgY0CE77kEo="
