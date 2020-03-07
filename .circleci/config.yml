@@ -18,7 +18,7 @@ jobs:
           name: Runnning tests
           command: |
             . venv/bin/activate
-            py.test -vv test
+            py.test -vv FootBotApi/test
 
 
 
