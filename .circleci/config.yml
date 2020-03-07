@@ -19,8 +19,13 @@ jobs:
             . venv/bin/activate
             pip install -r requirements.txt
       - run:
+          name: "Setup custom environment variables"
+          command: |
+            echo 'export FLASK_ENV="development"'
+      - run:
           name: Wait for Mongo to start
           command: dockerize -wait tcp://127.0.0.1:27017 -timeout 120s
+
       - run:
           name: Runnning tests
           command: |
