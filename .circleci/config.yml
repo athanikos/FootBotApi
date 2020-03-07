@@ -1,6 +1,12 @@
 version: 2
 jobs:
   build:
-    working_directory: ~/circleci-demo-python-django
     docker:
       - image: circleci/python:3.6.4  # primary container for the build jo
+    steps:
+      - checkout
+      - run:
+            command: |  # use pipenv to install dependencies
+              sudo pip install pipenv
+              pipenv install
+
