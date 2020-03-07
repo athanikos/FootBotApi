@@ -27,9 +27,11 @@ jobs:
       - run:
           name: Wait for Mongo to start
           command: dockerize -wait tcp://127.0.0.1:27017 -timeout 120s
-      - run: python -m pytest --junitxml=junit/test-results.xml --cov=src --cov-report=xml --cov-report=html test/unit
-      - codecov/upload:
-          flags: backend,unittest
+      - run:
+          name: Runnning tests
+          command: |
+            . venv/bin/activate
+            py.test -vv -coverage FootBotApi/test
       - codecov/upload:
           file: coverage/*.json
           flags: frontend
