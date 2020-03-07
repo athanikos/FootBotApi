@@ -1,4 +1,6 @@
-version: 2
+version: 2.1
+orbs:
+  codecov: codecov/codecov@1.0.1
 working_directory: ~/FootBotApi
 jobs:
   build:
@@ -30,4 +32,6 @@ jobs:
           command: |
             . venv/bin/activate
             py.test -vv FootBotApi/test
-
+      - run:
+          - codecov/upload:
+              file: {{ coverage_report_filepath }}
