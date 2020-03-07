@@ -3,7 +3,7 @@ working_directory: ~/FootBotApi
 jobs:
   build:
     docker:
-    - image: circleci/python:3.7-node-browsers-legacy
+      - image: circleci/python:3.6.4  # primary container for the build jo
     steps:
       - checkout
       - run: sudo chown -R circleci:circleci /usr/local/bin
@@ -22,12 +22,9 @@ jobs:
             pip install '.[test]' --user
             echo $HOME
       - run:
-          name: Run Tests
+          name: Runnning tests
           command: |
-            /usr/local/bin/coverage run -m pytest
-            /usr/local/bin/coverage report
-            /usr/local/bin/coverage html  # open htmlcov/index.html in a browser
-      - store_artifacts:
-          path: htmlcov
+            . venv/bin/activate
+            py.test -vv ~/FootBotApi/test
 
 
