@@ -4,6 +4,10 @@ jobs:
   build:
     docker:
       - image: circleci/python:3.6.4  # primary container for the build jo
+      - image: circleci/mongo:4.2.3
+        environment:
+          MONGO_INITDB_ROOT_USERNAME: admin
+          MONGO_INITDB_ROOT_PASSWORD: admin
     steps:
       - checkout
       - run: sudo chown -R circleci:circleci /usr/local/bin
@@ -14,6 +18,9 @@ jobs:
             virtualenv venv
             . venv/bin/activate
             pip install -r requirements.txt
+      - run:
+          name: Wait for Mongo to start
+          command: dockerize -wait tcp://127.0.0.1:27017 -timeout 120s
       - run:
           name: Runnning tests
           command: |
