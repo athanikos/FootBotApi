@@ -24,6 +24,7 @@ jobs:
       - run:
           name: Runnning tests
           command: |
-            pytest ~/FootBotApi/test
+            pipenv run python manage.py test
+
 
 
