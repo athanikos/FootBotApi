@@ -16,15 +16,16 @@ jobs:
           name: pip install
           command: |  # use pipenv to install dependencies
             pip install -r requirements.txt
-      - run:
-          name: Setup testing environment
-          command: |
-            pip install '.[test]' --user
-            echo $HOME
+  test:
+    docker:
+      - image: circleci/python:2.7.14-jessie
+    steps:
+      - checkout
       - run:
           name: Runnning tests
           command: |
-            pipenv run python FootBotApi test
+            . venv/bin/activate
+            py.test -vv FootBotApi/test
 
 
 
