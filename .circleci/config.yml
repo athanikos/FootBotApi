@@ -13,12 +13,12 @@ jobs:
           command: |
             virtualenv venv
             . venv/bin/activate
-            pip install -r FootBotApi/requirements.txt
+            pip install -r requirements.txt
       - run:
           name: Runnning tests
           command: |
             . venv/bin/activate
-            py.test -vv FootBotApi/test
+            py.test -vv test
 
 
 
