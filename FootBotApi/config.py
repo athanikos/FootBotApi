@@ -29,7 +29,7 @@ class ProductionConfig(BaseConfig):
     PORT = 27017
     DATABASE = "book"
     USERNAME = "foot"
-    PASSWORD = get_password("FootBotApi","foot")
+    #PASSWORD = get_password("FootBotApi","foot")
 
 
 config = {
