@@ -1,6 +1,10 @@
 version: 2
 jobs:
   build:
-    working_directory: ~/PycharmProjects/FootBotApi
+    working_directory: ~/FootBotApi
   docker:
-      - image: circleci/python:3.6.4
+   - image: circleci/python:3.6.4
+  setps:
+   - checkout # check out source code to working directory
+   - run: sudo chown -R circleci:circleci /usr/local/bin
+   - run: sudo chown -R circleci:circleci /usr/local/lib/python3.6/site-packages
