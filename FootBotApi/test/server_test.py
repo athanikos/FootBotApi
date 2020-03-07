@@ -1,10 +1,8 @@
 import mock
 import pytest
 from FootBotApi.models import flatmatches, matches, Event, Time
-from FootBotApi.server import create_app, connect
-from flask import current_app as app
+from FootBotApi.server import create_app, do_connect
 import json
-from keyring import set_password, get_password
 
 
 @pytest.fixture(scope='module')
@@ -53,7 +51,6 @@ def mock_fetch_match():
 
 
 def test_historical_stats_uri(mock_fetch_flat_matches, test_client):
-    set_password('FootBotApi', 'foot', 'test')
     response = test_client.get('/api/v1/flat-matches/72/629/2020-01-20/FT/historical-stats')
     assert response.status_code == 200
     data_json2 = json.loads(response.get_json(silent=True, force=True))
@@ -62,7 +59,6 @@ def test_historical_stats_uri(mock_fetch_flat_matches, test_client):
 
 
 def test_match_events_stats_uri(mock_fetch_match, test_client):
-    set_password('FootBotApi', 'foot', 'test')
     response = test_client.get('/api/v1/matches/72/FT/event-stats')
     assert response.status_code == 200
     data_json2 = json.loads(response.get_json(silent=True, force=True))
@@ -70,7 +66,6 @@ def test_match_events_stats_uri(mock_fetch_match, test_client):
 
 
 def test_get_computed_stats(test_client):
-    set_password('FootBotApi', 'foot', 'test')
     do_connect()
     flatmatches.objects.all().delete()
     the_match = flatmatches()
@@ -79,17 +74,14 @@ def test_get_computed_stats(test_client):
     the_match.stats_data_0_goals = 1
     the_match.stats_data_1_goals = 0
     the_match.save(force_insert=True ,validate = False,clean=False)
-
     response = test_client.get('/api/v1/flat-matches/2/FT/computed-stats')
     data_json2 = json.loads(response.get_json(silent=True, force=True))
     assert response.status_code == 200
-    print(data_json2)
     assert data_json2['home_points'] == 3
     assert data_json2['away_points'] == 0
 
 
 def test_get_match(test_client):
-    set_password('FootBotApi', 'foot', 'test')
     do_connect()
     matches.objects.all().delete()
     the_match = matches()
@@ -111,13 +103,7 @@ def test_get_match(test_client):
     assert data_json2['home_team_id'] == 6666
 
 
-def do_connect():
-    url = 'mongodb://foot:' + get_password('FootBotApi', 'foot') + '@' + app.config['SERVERNAME'] + ':' + str(app.config['PORT']) + '/' + app.config['DATABASE']
-    connect( db=app.config['DATABASE'], username='foot', password=get_password('FootBotApi', 'foot'), host=url)
-
-
 def test_get_flat_matches(test_client):
-    set_password('FootBotApi', 'foot', 'test')
     do_connect()
     flatmatches.objects.all().delete()
     flat_match1 = flatmatches()

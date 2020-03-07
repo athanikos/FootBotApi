@@ -1,4 +1,5 @@
 import os
+from keyring import get_password
 
 
 class BaseConfig(object):
@@ -7,6 +8,8 @@ class BaseConfig(object):
     SERVERNAME = "localhost"
     PORT = 27017
     DATABASE = "book"
+    USERNAME = "dummy"
+    PASSWORD = "dummy"
 
 
 class DevelopmentConfig(BaseConfig):
@@ -15,7 +18,8 @@ class DevelopmentConfig(BaseConfig):
     SERVERNAME = "localhost"
     PORT = 27017
     DATABASE = "testbook"
-
+    USERNAME = "superuser"
+    PASSWORD = "superuser"
 
 class ProductionConfig(BaseConfig):
     DEBUG = False
@@ -23,6 +27,8 @@ class ProductionConfig(BaseConfig):
     SERVERNAME = "localhost"
     PORT = 27017
     DATABASE = "book"
+    USERNAME = "foot"
+    PASSWORD = get_password("FootBotApi","foot")
 
 
 config = {
