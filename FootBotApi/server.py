@@ -35,7 +35,6 @@ def get_computed_stats(match_id, time_status):
         build_computed_stats(m,output)
     return jsonify(output.toJSON())
 
-
 @bp.route("/api/v1/matches/<int:match_id>/<time_status>/event-stats", methods=['GET'])
 def get_match(match_id, time_status):
     the_matches = fetch_match(match_id, time_status)
