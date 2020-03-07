@@ -50,6 +50,8 @@ def mock_fetch_match():
         yield [m]
 
 
+
+
 def test_historical_stats_uri(mock_fetch_flat_matches, test_client):
     response = test_client.get('/api/v1/flat-matches/72/629/2020-01-20/FT/historical-stats')
     assert response.status_code == 200
