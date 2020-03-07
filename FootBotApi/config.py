@@ -18,8 +18,8 @@ class DevelopmentConfig(BaseConfig):
     SERVERNAME = "localhost"
     PORT = 27017
     DATABASE = "testbook"
-    USERNAME = "superuser"
-    PASSWORD = "superuser"
+    USERNAME = "admin"
+    PASSWORD = "admin"
 
 class ProductionConfig(BaseConfig):
     DEBUG = False
