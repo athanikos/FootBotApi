@@ -1,11 +1,9 @@
 from flask import Flask, jsonify, Blueprint
 from flask import current_app as app
-from keyring import get_password
 from mongoengine import connect
 from mongoengine.queryset.visitor import Q
-
 from FootBotApi.calculator.ComputedFromEventsFields import ComputedFromEventsFields, minutes
-from FootBotApi.calculator.calculator import build_historical_stats, OutputTeamStats, build_computed_stats
+from FootBotApi.calculator.calculator import build_computed_stats, build_historical_stats, OutputTeamStats
 from FootBotApi.config import configure_app
 from FootBotApi.models import flatmatches, matches
 
@@ -34,6 +32,7 @@ def get_computed_stats(match_id, time_status):
     for m in the_matches:
         build_computed_stats(m,output)
     return jsonify(output.toJSON())
+
 
 @bp.route("/api/v1/matches/<int:match_id>/<time_status>/event-stats", methods=['GET'])
 def get_match(match_id, time_status):
@@ -65,13 +64,15 @@ def fetch_match(the_match_id, time_status):
     do_connect()
     return matches.objects((Q(match_id=the_match_id) & Q(time__status=time_status)))
 
+
 def fetch_flat_match(the_match_id, time_status):
     do_connect()
     return flatmatches.objects((Q(match_id=the_match_id) & Q(time_status=time_status)))
 
+
 def do_connect():
-    url = 'mongodb://' + app.config['USERNAME'] + ':' + app.config['PASSWORD']+ '@' + app.config['SERVERNAME'] + ':' + str(app.config['PORT']) + '/?authSource=admin'
-    connect( db=app.config['DATABASE'], username=app.config['USERNAME'], password=app.config['PASSWORD'], host=url)
+    url = 'mongodb://' + app.config['USERNAME'] + ':' + app.config['PASSWORD'] + '@' + app.config['SERVERNAME'] + ':' + str(app.config['PORT']) + '/?authSource=admin'
+    connect( db=app.config['DATABASE'], username=app.config['USERNAME'], host=url)
 
 
 if __name__ == '__main__':
