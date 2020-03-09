@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, Blueprint
 from flask.blueprints import Blueprint
 from flask import current_app as app
 from mongoengine import connect
@@ -10,11 +10,12 @@ from FootBotApi.config import configure_app
 from FootBotApi.models import flatmatches, matches
 
 
-bp = Blueprint('myapp', __name__)
+bp = Blueprint('FootBotApi', __name__.split('.')[0])
 
 
 def create_app():
-    the_app = Flask(__name__, instance_relative_config=True)
+    print('sss')
+    the_app = Flask( __name__.split('.')[0], instance_relative_config=True)
     configure_app(the_app)
     the_app.register_blueprint(bp)
     return the_app
@@ -77,6 +78,5 @@ def do_connect():
     url = 'mongodb://' + app.config['USERNAME'] + ':' + app.config['PASSWORD'] + '@' + app.config['SERVERNAME'] + ':' + str(app.config['PORT']) + '/?authSource=admin'
     connect( db=app.config['DATABASE'], username=app.config['USERNAME'], host=url)
 
-
 if __name__ == '__main__':
-    bp.run()
+    create_app().run()
