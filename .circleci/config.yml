@@ -5,7 +5,7 @@ working_directory: ~/FootBotApi
 jobs:
   build:
     docker:
-      - image: circleci/python:3.6.4  # primary container for the build jo
+      - image: circleci/python:3.6.4  # primary container for the build job
       - image: circleci/mongo:4.2.3
         environment:
           MONGO_INITDB_ROOT_USERNAME: admin
