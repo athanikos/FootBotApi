@@ -1,4 +1,5 @@
-from flask import Flask, jsonify, Blueprint
+from flask import Flask, jsonify
+from flask.blueprints import Blueprint
 from flask import current_app as app
 from mongoengine import connect
 from mongoengine.queryset.visitor import Q
