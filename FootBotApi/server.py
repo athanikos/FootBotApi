@@ -9,15 +9,14 @@ from FootBotApi.calculator.calculator import build_computed_stats, build_histori
 from FootBotApi.config import configure_app
 from FootBotApi.models import flatmatches, matches
 
-
-bp = Blueprint('FootBotApi', __name__.split('.')[0])
+bp = Blueprint( __name__.split('.')[0], __name__.split('.')[0])
 
 
 def create_app():
-    print('sss')
     the_app = Flask( __name__.split('.')[0], instance_relative_config=True)
     configure_app(the_app)
     the_app.register_blueprint(bp)
+
     return the_app
 
 
@@ -77,6 +76,7 @@ def fetch_flat_match(the_match_id, time_status):
 def do_connect():
     url = 'mongodb://' + app.config['USERNAME'] + ':' + app.config['PASSWORD'] + '@' + app.config['SERVERNAME'] + ':' + str(app.config['PORT']) + '/?authSource=admin'
     connect( db=app.config['DATABASE'], username=app.config['USERNAME'], host=url)
+
 
 if __name__ == '__main__':
     create_app().run()
