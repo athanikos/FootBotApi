@@ -16,6 +16,7 @@ def create_app():
     the_app = Flask( __name__.split('.')[0], instance_relative_config=True)
     configure_app(the_app)
     the_app.register_blueprint(bp)
+
     return the_app
 
 
