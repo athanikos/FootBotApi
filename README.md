@@ -26,4 +26,5 @@ cd FootBotApiEnv
 source bin/activate
 git clone https://github.com/athanikos/FootBotApi
 cd FootBotApi
+pip install -r requirements.txt
 gunicorn --bind 0.0.0.0:5000 "wsgi:create_app()"
