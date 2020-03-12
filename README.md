@@ -4,7 +4,7 @@ Uses mongo db as a backend database
 
 
 ###summary 
-Three methods are available:
+
 a. /api/v1/matches/<int:match_id>/<time_status>/event-stats 
 uses nested events collection for a match and build statistics per interval 
 result looks  like  { }  
@@ -12,13 +12,13 @@ result looks  like  { }
 b. /api/v1/flat-matches/<int:match_id>/<time_status>/computed-stats
 Computes simple field i.e. homepoints from homegoals and awaygoals
 
-c./api/v1/flat-matches/<int:league_id>/<int:team_id>/<before_date>/<time_status>/historical-stats"  
+c./api/v1/flat-matches/<int:league_id>/<int:team_id>/<before_date>/<time_status>/historical-stats   
 gets last 10 matches for teamid in leagueid with Status FT and computes averages 
 
     
 ###deployment instructions 
+first install mongo and run   
 similar to [this](https://www.digitalocean.com/community/tutorials/how-to-serve-flask-applications-with-gunicorn-and-nginx-on-ubuntu-18-04) 
-(first install mongo and run) 
 
 sudo apt install python3-venv   
 python3.7 -m venv FootBotApiEnv  
