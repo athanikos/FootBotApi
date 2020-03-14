@@ -10,9 +10,6 @@ class BaseConfig(object):
     DATABASE = "book"
     USERNAME = "dummy"
 
-    def get_password(self):
-        return "dummy"
-
 
 class DevelopmentConfig(BaseConfig):
     DEBUG = True
