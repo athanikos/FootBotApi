@@ -11,4 +11,3 @@ ExecStart=/home/nikos/FootBotApi/FootBotApienv3/bin/uwsgi --ini FootBotApi.ini
 
 [Install]
 WantedBy=multi-user.target
- 
