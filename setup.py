@@ -19,6 +19,6 @@ setup(
     classifiers=[
         "Development Status:: 2 - Pre - Alpha",
         "License :: OSI Approved :: MIT License",
-        "Operating System :: OS Independent",
+        "Operating System : Ubuntu 18.04 ",
     ],
 )

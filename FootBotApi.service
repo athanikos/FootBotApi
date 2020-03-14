@@ -1,0 +1,14 @@
+[Unit]
+Description=uWSGI instance to serve FootBotApi
+After=network.target
+
+[Service]
+User=nikos
+Group=www-data
+WorkingDirectory=/home/nikos/FootBotApi
+Environment="PATH=/home/nikos/FootBotApi/FootBotApienv3/bin"
+ExecStart=/home/nikos/FootBotApi/FootBotApienv3/bin/uwsgi --ini FootBotApi.ini
+
+[Install]
+WantedBy=multi-user.target
+ 
