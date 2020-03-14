@@ -6,8 +6,8 @@ After=network.target
 User=nikos
 Group=www-data
 WorkingDirectory=/home/nikos/FootBotApi
-Environment="PATH=/home/nikos/FootBotApi/FootBotApienv3/bin"
-ExecStart=/home/nikos/FootBotApi/FootBotApienv3/bin/uwsgi --ini FootBotApi.ini
+Environment="PATH=/home/nikos/FootBotApi/FootBotApienv/bin"
+ExecStart=/home/nikos/FootBotApi/FootBotApienv/bin/uwsgi --ini FootBotApi.ini
 
 [Install]
 WantedBy=multi-user.target
