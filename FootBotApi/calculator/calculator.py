@@ -17,14 +17,14 @@ def build_historical_stats(flat_matches, team_id, league_id, before_date, object
 
 
 def build_computed_stats(object_to_get_values, object_to_set_values):
-    home_points_formulas =  [ ComputedFormula('stats_data_0_goals', 'stats_data_1_goals',Operator.GREATER_THAN ,3,1,object_to_get_values ) ,
+    home_points_formulas =  [ ComputedFormula('stats_data_0_goals', 'stats_data_1_goals',Operator.GREATER_THAN,3,1,object_to_get_values ) ,
                    ComputedFormula('stats_data_0_goals', 'stats_data_1_goals', Operator.EQUAL, 1, 0,object_to_get_values),
                    ComputedFormula('stats_data_0_goals', 'stats_data_1_goals', Operator.LESS_THAN, 0, 0, object_to_get_values),
                    ]
     hcf = ComputedField('home_points', object_to_get_values,object_to_set_values,  home_points_formulas)
     hcf.compute()
 
-    away_points_formulas =   [ ComputedFormula('stats_data_0_goals', 'stats_data_1_goals',Operator.LESS_THAN ,3,1,object_to_get_values ) ,
+    away_points_formulas =  [ ComputedFormula('stats_data_0_goals', 'stats_data_1_goals',Operator.LESS_THAN ,3,1,object_to_get_values ) ,
                    ComputedFormula('stats_data_0_goals', 'stats_data_1_goals', Operator.EQUAL, 1, 0,object_to_get_values),
                    ComputedFormula('stats_data_0_goals', 'stats_data_1_goals', Operator.GREATER_THAN, 0, 0, object_to_get_values),
                    ]
