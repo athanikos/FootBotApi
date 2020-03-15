@@ -11,6 +11,11 @@ class ComputedField:
         self.result = 0
 
     def compute(self):
+        if not hasattr(self.object_get, self.formulas[0].input_field_name_1):
+            return
+        if not hasattr(self.object_get, self.formulas[0].input_field_name_2):
+            return
+
         for cf in self.formulas:
             cf.compute()
             if cf.is_true:
@@ -32,8 +37,17 @@ class ComputedFormula:
         self.is_true = False
 
     def compute(self):
+        if not hasattr(self.object_to_get_values_from, self.input_field_name_1):
+            return
+        if not hasattr(self.object_to_get_values_from, self.input_field_name_2):
+            return
+
         input_field_1_value = getattr(self.object_to_get_values_from, self.input_field_name_1)
         input_field_2_value = getattr(self.object_to_get_values_from, self.input_field_name_2)
+
+        if input_field_1_value is None or input_field_1_value is None:
+            return
+
         expr = str(input_field_1_value) + self.operator.value + str(input_field_2_value)
         if eval(expr):
             self.result = self.true_result

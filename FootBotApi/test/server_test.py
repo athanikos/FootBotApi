@@ -50,8 +50,6 @@ def mock_fetch_match():
         yield [m]
 
 
-
-
 def test_historical_stats_uri(mock_fetch_flat_matches, test_client):
     response = test_client.get('/api/v1/flat-matches/72/629/2020-01-20/FT/historical-stats')
     assert response.status_code == 200
@@ -81,6 +79,21 @@ def test_get_computed_stats(test_client):
     assert response.status_code == 200
     assert data_json2['home_points'] == 3
     assert data_json2['away_points'] == 0
+
+
+def test_get_computed_stats_when_field_values_are_none(test_client):
+    do_connect()
+    flatmatches.objects.all().delete()
+    the_match = flatmatches()
+    the_match.match_id = 2
+    the_match.time_status = 'FT'
+    the_match.stats_data_1_goals = 0
+    the_match.save(force_insert=True ,validate = False,clean=False)
+    response = test_client.get('/api/v1/flat-matches/2/FT/computed-stats')
+    data_json2 = json.loads(response.get_json(silent=True, force=True))
+    assert response.status_code == 200
+    assert 'home_points' not in data_json2
+    assert 'away_points' not in data_json2
 
 
 def test_get_match(test_client):

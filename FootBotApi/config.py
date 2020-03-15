@@ -40,7 +40,7 @@ config = {
 
 def configure_app(app):
     config_name = os.getenv('FLASK_ENV', 'default')
-    if config_name == ProductionConfig:
+    if config_name is ProductionConfig:
         config[config_name].PASSWORD = get_password('FootBotApi',config[config_name].USERNAME)
 
     app.config.from_object(config[config_name])
