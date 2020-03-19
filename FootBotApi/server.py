@@ -38,7 +38,6 @@ def get_computed_stats(match_id, time_status):
             build_computed_stats(m,output)
     except Exception as e:
         print(e)
-        #KafkaProducer.send()
     return jsonify(output.toJSON())
 
 
