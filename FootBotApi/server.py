@@ -8,6 +8,8 @@ from FootBotApi.calculator.ComputedFromEventsFields import minutes
 from FootBotApi.calculator.calculator import build_computed_stats, build_historical_stats, OutputTeamStats
 from FootBotApi.config import configure_app
 from FootBotApi.models import flatmatches, matches
+from kafka import KafkaProducer
+
 
 bp = Blueprint( __name__.split('.')[0], __name__.split('.')[0])
 
@@ -16,7 +18,6 @@ def create_app():
     the_app = Flask( __name__.split('.')[0], instance_relative_config=True)
     configure_app(the_app)
     the_app.register_blueprint(bp)
-
     return the_app
 
 
@@ -30,10 +31,14 @@ def get_historical_stats(league_id, team_id, before_date, time_status):
 
 @bp.route("/api/v1/flat-matches/<int:match_id>/<time_status>/computed-stats", methods=['GET'])
 def get_computed_stats(match_id, time_status):
-    the_matches = fetch_flat_match(match_id, time_status)
     output = OutputTeamStats()
-    for m in the_matches:
-        build_computed_stats(m,output)
+    try:
+        the_matches = fetch_flat_match(match_id, time_status)
+        for m in the_matches:
+            build_computed_stats(m,output)
+    except Exception as e:
+        print(e)
+        #KafkaProducer.send()
     return jsonify(output.toJSON())
 
 

@@ -24,11 +24,11 @@ class DevelopmentConfig(BaseConfig):
 class ProductionConfig(BaseConfig):
     DEBUG = False
     TESTING = False
-    SERVERNAME = "localhost"
+    SERVERNAME = "167.71.58.55"
     PORT = 27017
     DATABASE = "book"
     USERNAME = "foot"
-    PASSWORD = ""
+    PASSWORD = "Sbutsam"
 
 
 config = {

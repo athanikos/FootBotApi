@@ -96,6 +96,10 @@ def test_get_computed_stats_when_field_values_are_none(test_client):
     assert 'away_points' not in data_json2
 
 
+def test_get_computed_stats_when_fields_do_not_exist(test_client):
+    pass
+
+
 def test_get_match(test_client):
     do_connect()
     matches.objects.all().delete()
