@@ -41,7 +41,9 @@ def get_computed_stats(match_id, time_status):
     except pymongo.errors.ServerSelectionTimeoutError as sste:
         log_error(sste, 'computed-stats', match_id)
         raise pymongo.errors.ServerSelectionTimeoutError from sste
-
+    except mongoengine.connection.ConnectionFailure as cf:
+        log_error(cf, 'computed-stats', match_id)
+        raise mongoengine.connection.ConnectionFailure from cf
     try:
         for m in the_matches:
             build_computed_stats(m, output)
@@ -60,7 +62,9 @@ def get_match(match_id, time_status):
     except pymongo.errors.ServerSelectionTimeoutError as sste:
         log_error(sste, 'event-stats', match_id)
         raise pymongo.errors.ServerSelectionTimeoutError from sste
-
+    except mongoengine.connection.ConnectionFailure as cf:
+        log_error(cf, 'event-stats', match_id)
+        raise mongoengine.connection.ConnectionFailure from cf
     try:
         for m in the_matches:
             afef = ComputedFromEventsFields(m.events['data'], match_id, m.localteam_id, m.visitorteam_id, minutes)
@@ -81,6 +85,9 @@ def get_flat_matches(league_id, team_id, before_date, time_status):
     except pymongo.errors.ServerSelectionTimeoutError as sste:
         log_error(sste, 'flat-matches', team_id)
         raise pymongo.errors.ServerSelectionTimeoutError from sste
+    except mongoengine.connection.ConnectionFailure as cf:
+        log_error(cf, 'flat-matches', team_id)
+        raise mongoengine.connection.ConnectionFailure from cf
     finally:
         return jsonify(items.to_json())
 
