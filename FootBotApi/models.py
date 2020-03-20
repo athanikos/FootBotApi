@@ -2,6 +2,7 @@ from mongoengine import *
 
 
 class flatmatches(Document):
+    meta = {'strict': False}
     match_id = IntField(db_field='id')
     league_id = IntField()
     localteam_id = IntField()
