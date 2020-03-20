@@ -51,14 +51,14 @@ def get_computed_stats(match_id, time_status):
         return jsonify(output.toJSON())
 
 
-@bp.route("/api/v1/matches/<int:match_id>/<time_status>/stats", methods=['GET'])
+@bp.route("/api/v1/matches/<int:match_id>/<time_status>/event-stats", methods=['GET'])
 def get_match(match_id, time_status):
     output = OutputTeamStats()
     the_matches = {}
     try:
         the_matches = fetch_match(match_id, time_status)
     except pymongo.errors.ServerSelectionTimeoutError as sste:
-        log_error(sste, 'stats', match_id)
+        log_error(sste, 'event-stats', match_id)
         raise pymongo.errors.ServerSelectionTimeoutError from sste
 
     try:
