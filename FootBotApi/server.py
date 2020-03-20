@@ -25,7 +25,13 @@ def get_historical_stats(league_id, team_id, before_date, time_status):
     output = OutputTeamStats()
     try:
         items = fetch_flat_matches(before_date, league_id, team_id, time_status)
-        build_historical_stats(items, team_id, league_id, before_date, output)
+        build_historical_stats(items,team_id,league_id,before_date,output)
+    except pymongo.errors.ServerSelectionTimeoutError as sste:
+        log_error(sste, 'historical-stats', team_id)
+        raise pymongo.errors.ServerSelectionTimeoutError from sste
+    except mongoengine.connection.ConnectionFailure as cf:
+        log_error(cf, 'historical-stats', team_id)
+        raise mongoengine.connection.ConnectionFailure from cf
     except mongoengine.errors.FieldDoesNotExist as fdne:
         log_error(fdne, 'computed-stats', team_id)
     finally:

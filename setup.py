@@ -1,6 +1,4 @@
 import setuptools
-
-import FootBotApi
 from distutils.core import setup
 
 
