@@ -59,13 +59,6 @@ def test_historical_stats_uri(mock_fetch_flat_matches, test_client):
     assert data_json2['team_id'] == 629
 
 
-def test_match_events_stats_uri(mock_fetch_match, test_client):
-    response = test_client.get('/api/v1/matches/72/FT/event-stats')
-    assert response.status_code == 200
-    data_json2 = json.loads(response.get_json(silent=True, force=True))
-    assert data_json2['HOME_TEAM_GOALS_UP_TO_14'] == 1
-
-
 def test_get_computed_stats(test_client):
     do_connect()
     flatmatches.objects.all().delete()
@@ -95,33 +88,6 @@ def test_get_computed_stats_when_field_values_are_none(test_client):
     assert response.status_code == 200
     assert 'home_points' not in data_json2
     assert 'away_points' not in data_json2
-
-
-def test_get_computed_stats_when_fields_do_not_exist(test_client):
-    pass
-
-
-def test_get_match(test_client):
-    do_connect()
-    matches.objects.all().delete()
-    the_match = matches()
-    the_match.visitorteam_id = 999
-    the_match.localteam_id = 6666
-    the_match.match_id = 2
-    the_time = Time()
-    the_time.status = 'FT'
-    the_match.time = the_time
-    the_event = Event()
-    the_event.minute = 11
-    the_event.team_id = 999
-    the_event.type ='goal'
-    the_match.events = { 'data' : [ the_event ] }
-    the_match.save(force_insert=True ,validate = False,clean=False)
-    response = test_client.get('/api/v1/matches/2/FT/event-stats')
-    data_json2 = json.loads(response.get_json(silent=True, force=True))
-    assert response.status_code == 200
-    assert data_json2['home_team_id'] == 6666
-
 
 def test_get_flat_matches(test_client):
     do_connect()
