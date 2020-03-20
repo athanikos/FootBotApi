@@ -9,6 +9,7 @@ class BaseConfig(object):
     PORT = 27017
     DATABASE = "book"
     USERNAME = "dummy"
+    LOGS_PATH = '../FootBotApi/logs/FootBotApi.log'
 
 
 class DevelopmentConfig(BaseConfig):
@@ -19,6 +20,7 @@ class DevelopmentConfig(BaseConfig):
     DATABASE = "testbook"
     USERNAME = "admin"
     PASSWORD = "admin"
+    LOGS_PATH ='../FootBotApi/logs/FootBotApi.log'
 
 
 class ProductionConfig(BaseConfig):
@@ -29,8 +31,7 @@ class ProductionConfig(BaseConfig):
     DATABASE = "book"
     USERNAME = "foot"
     PASSWORD = "Sbutsam"
-
-
+    LOGS_PATH = '../FootBotApi/logs/FootBotApi.log'
 config = {
     "development": "FootBotApi.config.DevelopmentConfig",
     "production": "FootBotApi.config.ProductionConfig",

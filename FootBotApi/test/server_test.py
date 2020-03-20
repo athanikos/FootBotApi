@@ -1,7 +1,8 @@
 import mock
 import pytest
 from FootBotApi.models import flatmatches, matches, Event, Time
-from FootBotApi.server import create_app, do_connect
+from FootBotApi.server import create_app
+from FootBotApi.fetcher.fetcher import do_connect
 import json
 
 

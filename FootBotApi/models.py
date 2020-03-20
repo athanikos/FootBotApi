@@ -99,6 +99,7 @@ class flatmatches(Document):
 
 
 class Event(EmbeddedDocument):
+    meta = {'strict': False}
     id = IntField()
     team_id = IntField()
     type = StringField()
