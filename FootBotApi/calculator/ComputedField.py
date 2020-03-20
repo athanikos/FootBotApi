@@ -17,7 +17,8 @@ class ComputedField:
             return
 
         for cf in self.formulas:
-            cf.compute()
+            if not cf.compute():
+                return
             if cf.is_true:
                 self.result = cf.result
                 setattr(self.object_to_set, self.output_field_name, self.result)
@@ -38,15 +39,15 @@ class ComputedFormula:
 
     def compute(self):
         if not hasattr(self.object_to_get_values_from, self.input_field_name_1):
-            return
+            return False
         if not hasattr(self.object_to_get_values_from, self.input_field_name_2):
-            return
+            return False
 
         input_field_1_value = getattr(self.object_to_get_values_from, self.input_field_name_1)
         input_field_2_value = getattr(self.object_to_get_values_from, self.input_field_name_2)
 
         if input_field_1_value is None or input_field_1_value is None:
-            return
+            return False
 
         expr = str(input_field_1_value) + self.operator.value + str(input_field_2_value)
         if eval(expr):
@@ -54,7 +55,7 @@ class ComputedFormula:
             self.is_true = True
         else:
             self.result = self.false_result
-
+        return True
 
 class Operator(Enum):
     GREATER_THAN = '>'

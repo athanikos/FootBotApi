@@ -1,81 +1,104 @@
-from flask import Flask, jsonify, Blueprint
+import mongoengine
+import pymongo
+from flask import Flask, jsonify
 from flask.blueprints import Blueprint
-from flask import current_app as app
-from mongoengine import connect
-from mongoengine.queryset.visitor import Q
 from FootBotApi.calculator.ComputedFromEventsFields import ComputedFromEventsFields
 from FootBotApi.calculator.ComputedFromEventsFields import minutes
 from FootBotApi.calculator.calculator import build_computed_stats, build_historical_stats, OutputTeamStats
 from FootBotApi.config import configure_app
-from FootBotApi.models import flatmatches, matches
+from FootBotApi.fetcher.fetcher import fetch_match, fetch_flat_match, fetch_flat_matches
+from FootBotApi.logger.logger import log_error
 
-bp = Blueprint( __name__.split('.')[0], __name__.split('.')[0])
+bp = Blueprint(__name__.split('.')[0], __name__.split('.')[0])
 
 
 def create_app():
-    the_app = Flask( __name__.split('.')[0], instance_relative_config=True)
+    the_app = Flask(__name__.split('.')[0], instance_relative_config=True)
     configure_app(the_app)
     the_app.register_blueprint(bp)
-
     return the_app
 
 
-@bp.route("/api/v1/flat-matches/<int:league_id>/<int:team_id>/<before_date>/<time_status>/historical-stats", methods=['GET'])
+@bp.route("/api/v1/flat-matches/<int:league_id>/<int:team_id>/<before_date>/<time_status>/historical-stats",
+          methods=['GET'])
 def get_historical_stats(league_id, team_id, before_date, time_status):
-    items = fetch_flat_matches(before_date, league_id, team_id, time_status)
     output = OutputTeamStats()
-    build_historical_stats(items, team_id, league_id, before_date, output)
-    return jsonify(output.toJSON())
+    try:
+        items = fetch_flat_matches(before_date, league_id, team_id, time_status)
+        build_historical_stats(items, team_id, league_id, before_date, output)
+    except mongoengine.errors.FieldDoesNotExist as fdne:
+        log_error(fdne, 'computed-stats', team_id)
+    finally:
+        return jsonify(output.toJSON())
 
 
 @bp.route("/api/v1/flat-matches/<int:match_id>/<time_status>/computed-stats", methods=['GET'])
 def get_computed_stats(match_id, time_status):
-    the_matches = fetch_flat_match(match_id, time_status)
     output = OutputTeamStats()
-    for m in the_matches:
-        build_computed_stats(m,output)
-    return jsonify(output.toJSON())
+    the_matches = {}
+    try:
+        the_matches = fetch_flat_match(match_id, time_status)
+    except pymongo.errors.ServerSelectionTimeoutError as sste:
+        log_error(sste, 'computed-stats', match_id)
+        raise pymongo.errors.ServerSelectionTimeoutError from sste
+
+    try:
+        for m in the_matches:
+            build_computed_stats(m, output)
+    except mongoengine.errors.FieldDoesNotExist as fdne:
+        log_error(fdne, 'computed-stats', match_id)
+    finally:
+        return jsonify(output.toJSON())
 
 
-@bp.route("/api/v1/matches/<int:match_id>/<time_status>/event-stats", methods=['GET'])
+@bp.route("/api/v1/matches/<int:match_id>/<time_status>/stats", methods=['GET'])
 def get_match(match_id, time_status):
-    the_matches = fetch_match(match_id, time_status)
     output = OutputTeamStats()
-    for m in the_matches:
-        afef = ComputedFromEventsFields(m.events['data'], match_id, m.localteam_id, m.visitorteam_id, minutes)
-        afef.init_output_dictionaries()
-        afef.compute_output_values_from_events()
-        afef.add_output_values_to_object(output)
-    return jsonify(output.toJSON())
+    the_matches = {}
+    try:
+        the_matches = fetch_match(match_id, time_status)
+    except pymongo.errors.ServerSelectionTimeoutError as sste:
+        log_error(sste, 'stats', match_id)
+        raise pymongo.errors.ServerSelectionTimeoutError from sste
+
+    try:
+        for m in the_matches:
+            afef = ComputedFromEventsFields(m.events['data'], match_id, m.localteam_id, m.visitorteam_id, minutes)
+            afef.init_output_dictionaries()
+            afef.compute_output_values_from_events()
+            afef.add_output_values_to_object(output)
+        return jsonify(output.toJSON())
+    except mongoengine.errors.FieldDoesNotExist as fdne:
+        log_error(fdne, 'stats', match_id)
+    finally:
+        return jsonify(output.toJSON())
 
 
 @bp.route("/api/v1/flat-matches/<int:league_id>/<int:team_id>/<before_date>/<time_status>", methods=['GET'])
 def get_flat_matches(league_id, team_id, before_date, time_status):
-    items = fetch_flat_matches(before_date, league_id, team_id, time_status)
-    return jsonify(items.to_json())
+    try:
+        items = fetch_flat_matches(before_date, league_id, team_id, time_status)
+    except pymongo.errors.ServerSelectionTimeoutError as sste:
+        log_error(sste, 'flat-matches', team_id)
+        raise pymongo.errors.ServerSelectionTimeoutError from sste
+    finally:
+        return jsonify(items.to_json())
 
 
-def fetch_flat_matches(before_date, league_id, team_id, time_status):
-    do_connect()
-    return flatmatches.objects((Q(localteam_id=team_id) | Q(visitorteam_id=team_id))
-                               & (Q(time_status=time_status))
-                               & Q(league_id=league_id) & Q(time_starting_at_date__lt=before_date)).order_by(
-        'time_starting_at_date-')[:10]
+@bp.app_errorhandler(pymongo.errors.ServerSelectionTimeoutError)
+def handle_error(error):
+    message = [str(x) for x in error.args]
+    status_code = 500
+    success = False
+    response = {
+        'success': success,
+        'error': {
+            'type': error.__class__.__name__,
+            'message': message
+        }
+    }
 
-
-def fetch_match(the_match_id, time_status):
-    do_connect()
-    return matches.objects((Q(match_id=the_match_id) & Q(time__status=time_status)))
-
-
-def fetch_flat_match(the_match_id, time_status):
-    do_connect()
-    return flatmatches.objects((Q(match_id=the_match_id) & Q(time_status=time_status)))
-
-
-def do_connect():
-    url = 'mongodb://' + app.config['USERNAME'] + ':' + app.config['PASSWORD'] + '@' + app.config['SERVERNAME'] + ':' + str(app.config['PORT']) + '/?authSource=admin'
-    connect( db=app.config['DATABASE'], username=app.config['USERNAME'], host=url)
+    return jsonify(response), status_code
 
 
 if __name__ == '__main__':
