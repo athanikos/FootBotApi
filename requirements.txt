@@ -11,5 +11,7 @@ python-dotenv==0.10.5
 keyring==18.0.1
 coverage
 kafka-python==2.0.1
+flasgger
+
 
 
