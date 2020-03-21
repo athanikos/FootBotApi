@@ -15,11 +15,11 @@ class BaseConfig(object):
 class DevelopmentConfig(BaseConfig):
     DEBUG = True
     TESTING = True
-    SERVERNAME = "localhost"
+    SERVERNAME  = "167.71.58.55"
     PORT = 27017
-    DATABASE = "testbook"
-    USERNAME = "admin"
-    PASSWORD = "admin"
+    DATABASE = "book"
+    USERNAME = "foot"
+    PASSWORD = "Sbutsam"
     LOGS_PATH ='../FootBotApi/logs/FootBotApi.log'
 
 

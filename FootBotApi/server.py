@@ -6,7 +6,7 @@ from FootBotApi.calculator.ComputedFromEventsFields import ComputedFromEventsFie
 from FootBotApi.calculator.ComputedFromEventsFields import minutes
 from FootBotApi.calculator.calculator import build_computed_stats, build_historical_stats, OutputTeamStats
 from FootBotApi.config import configure_app
-from FootBotApi.fetcher.fetcher import fetch_match, fetch_flat_match, fetch_flat_matches
+from FootBotApi.fetcher.fetcher import fetch_match, fetch_flat_match, fetch_flat_matches, fetch_leagues
 from FootBotApi.logger.logger import log_error
 from flasgger import Swagger
 from flasgger import swag_from
@@ -102,6 +102,21 @@ def get_flat_matches(league_id, team_id, before_date, time_status):
         raise pymongo.errors.ServerSelectionTimeoutError from sste
     except mongoengine.connection.ConnectionFailure as cf:
         log_error(cf, 'flat-matches', team_id)
+        raise mongoengine.connection.ConnectionFailure from cf
+    finally:
+        return jsonify(items.to_json())
+
+
+@bp.route("/api/v1/leagues/<int:league_id>/", methods=['GET'])
+@bp.route("/api/v1/leagues/", methods=['GET'])
+def get_leagues(league_id=None):
+    try:
+        items =  fetch_leagues(league_id)
+    except pymongo.errors.ServerSelectionTimeoutError as sste:
+        log_error(sste, 'leagues', league_id)
+        raise pymongo.errors.ServerSelectionTimeoutError from sste
+    except mongoengine.connection.ConnectionFailure as cf:
+        log_error(cf, 'leagues', league_id)
         raise mongoengine.connection.ConnectionFailure from cf
     finally:
         return jsonify(items.to_json())

@@ -1,6 +1,6 @@
 from mongoengine import connect, Q
 from flask import current_app as app
-from FootBotApi.models import flatmatches, matches
+from FootBotApi.models import flatmatches, matches, leagues
 
 
 def fetch_flat_matches(before_date, league_id, team_id, time_status):
@@ -9,6 +9,14 @@ def fetch_flat_matches(before_date, league_id, team_id, time_status):
                                & (Q(time_status=time_status))
                                & Q(league_id=league_id) & Q(time_starting_at_date__lt=before_date)).order_by(
         'time_starting_at_date-')[:10]
+
+
+def fetch_leagues(league_id):
+    do_connect()
+    if league_id is None:
+        return leagues.objects()
+    print(league_id)
+    return leagues.objects((Q(league_id=league_id)))
 
 
 def fetch_match(the_match_id, time_status):
