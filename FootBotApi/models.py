@@ -136,6 +136,7 @@ class Time(EmbeddedDocument):
 
 
 class matches(Document):
+    meta = {'strict': False}
     _id = ObjectIdField(primary_key=True)
     match_id = IntField(db_field='id')
     localteam_id = IntField()
@@ -173,3 +174,13 @@ class matches(Document):
     standings = IntField()
     neutral_venue =IntField()
     details = IntField()
+
+
+class leagues(Document):
+    meta = {'strict': False}
+    _id = ObjectIdField(primary_key=True)
+    league_id = IntField(db_field='id')
+    active = BooleanField()
+    country_id = IntField()
+    name=StringField()
+    type=StringField()

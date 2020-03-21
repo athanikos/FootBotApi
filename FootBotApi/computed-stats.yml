@@ -1,0 +1,16 @@
+parameters:
+  - name: match_id
+    in: path
+    type: integer
+    required: true
+  - name: time_status
+    in: path
+    type: String
+    required: true
+responses:
+  200:
+    description: Uses fields within the document and computes additional fields
+    examples:
+        response: "{\n    \"AverageAttack\": 0.0,\n    \"AverageDefence\": 0.0,\n    \"before_date\": \"2020-01-01\",\n    \"league_id\": 462,\n    \"team_id\": 652\n}"
+  503:
+    description: When Mongo db is down
